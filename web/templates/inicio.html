@@ -17,7 +17,7 @@
     <p>{% if kpi.tickets_pend %}{{ kpi.tickets_pend }} {{ 'cliente espera' if kpi.tickets_pend == 1 else 'clientes esperan' }} atención.{% else %}No hay clientes esperando.{% endif %}</p>
     <form method="post" action="{{ url_for('emitir_ticket') }}">
       <input type="hidden" name="desde" value="meson">
-      <button class="boton">Entregar número {{ siguiente }}</button>
+      <button class="boton" data-cargando="Entregando…">Entregar número {{ siguiente }}</button>
     </form>
   </div>
 </div>

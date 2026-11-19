@@ -4,7 +4,7 @@
 <div class="cabecera">
   <div><h1>Nueva venta</h1>
   <p class="bajada">El precio se aplica solo: mayoristas y distribuidores pagan precio por mayor.</p></div>
-  <form method="post" action="{{ url_for('emitir_ticket') }}"><button class="boton sec">Entregar número nuevo</button></form>
+  <form method="post" action="{{ url_for('emitir_ticket') }}"><button class="boton sec" data-cargando="Entregando…">Entregar número nuevo</button></form>
 </div>
 <form method="post" class="panel">
   <div class="campos">
@@ -19,8 +19,8 @@
       <select id="id_empleado" name="id_empleado">{% for e in empleados %}<option value="{{ e.id_empleado }}">{{ e.nombre }}</option>{% endfor %}</select></div>
   </div>
   <h2 style="margin-top:28px">Productos</h2>
-  <div class="tabla"><table>
-    <thead><tr><th>Producto</th><th class="num" style="width:130px">Cantidad</th></tr></thead>
+  <div class="tabla tabla-items"><table>
+    <thead><tr><th>Producto</th><th class="num col-cant">Cantidad</th></tr></thead>
     <tbody>
     {% for i in range(6) %}
     <tr><td><select name="producto" aria-label="Producto {{ i + 1 }}"><option value="">Elegir producto</option>
@@ -30,7 +30,7 @@
     {% endfor %}
     </tbody>
   </table></div>
-  <div class="acciones"><button class="boton">Registrar venta</button></div>
+  <div class="acciones"><button class="boton" data-cargando="Registrando venta…">Registrar venta</button></div>
   <p class="nota">Se ejecuta <code>sp_registrar_venta</code> en una sola transacción: valida el stock, descuenta las unidades y cierra el número. Si falta stock de un producto, la venta completa se deshace.</p>
 </form>
 {% endblock %}

@@ -39,7 +39,7 @@
       <div><label for="cantidad">Ventas a generar</label><input id="cantidad" name="cantidad" type="number" min="1" max="{{ max_simular or 20000 }}" value="200"></div>
       <div><label for="dias">En los últimos (días)</label><input id="dias" name="dias" type="number" min="1" value="60"></div>
     </div>
-    <div class="acciones"><button class="boton">Generar ventas</button></div>
+    <div class="acciones"><button class="boton" data-cargando="Generando ventas, puede tardar unos segundos…">Generar ventas</button></div>
   </form>
 </div>
 <section style="margin-top:40px">
