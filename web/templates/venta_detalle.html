@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block titulo %}Venta {{ v.id_venta }}{% endblock %}
+{% block contenido %}
+<h1>Venta #{{ v.id_venta }}</h1>
+<div class="caja">
+  <div class="campos">
+    <div><label>Fecha y hora</label>{{ v.fecha }} {{ v.hora }}</div>
+    <div><label>Ticket</label>N° {{ v.numero_ticket }}</div>
+    <div><label>Cliente</label>{{ v.cliente }} ({{ v.rut_cliente }})</div>
+    <div><label>Tipo de cliente</label>{{ v.tipo_cliente }}</div>
+    <div><label>Atendido por</label>{{ v.empleado }}</div>
+  </div>
+</div>
+<h2>Detalle</h2>
+<div class="tabla-scroll"><table>
+  <tr><th>SKU</th><th>Producto</th><th class="num">Cantidad</th><th class="num">Precio unit.</th><th class="num">Subtotal</th></tr>
+  {% for l in lineas %}
+  <tr><td>{{ l.sku }}</td><td>{{ l.nombre }}</td><td class="num">{{ l.cantidad }}</td>
+      <td class="num">{{ l.precio_unit|clp }}</td><td class="num">{{ l.subtotal|clp }}</td></tr>
+  {% endfor %}
+  <tr><th colspan="4" class="num">TOTAL</th><th class="num">{{ v.total|clp }}</th></tr>
+</table></div>
+<p><a class="btn btn-sec" href="{{ url_for('ventas') }}">Volver</a></p>
+{% endblock %}

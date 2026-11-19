@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block titulo %}Reportes{% endblock %}
+{% block contenido %}
+<h1>Reportes</h1>
+<div class="tabs">
+  {% for k, r in reportes.items() %}
+    <a class="btn {{ '' if k==clave else 'btn-sec' }}" href="{{ url_for('reportes', r=k) }}">{{ r[0] }}</a>
+  {% endfor %}
+</div>
+<h2>{{ titulo }}</h2>
+<div class="tabla-scroll"><table>
+  {% if filas %}
+  <tr>{% for col in filas[0].keys() %}<th>{{ col }}</th>{% endfor %}</tr>
+  {% for f in filas %}
+  <tr>{% for col, val in f.items() %}
+      <td class="{{ 'num' if val is number }}">{{ val|clp if col in moneda else val }}</td>{% endfor %}</tr>
+  {% endfor %}
+  {% else %}<tr><td>Sin datos.</td></tr>{% endif %}
+</table></div>
+<details style="margin-top:14px"><summary>Ver SQL</summary><pre>{{ sql }}</pre></details>
+{% endblock %}

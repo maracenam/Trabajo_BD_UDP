@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block titulo %}Producto{% endblock %}
+{% block contenido %}
+<h1>{{ 'Editar producto' if p else 'Nuevo producto' }}</h1>
+<form method="post" class="caja">
+  <div class="campos">
+    <div><label>SKU (codigo de barras)</label><input name="sku" required maxlength="20" value="{{ p.sku if p }}"></div>
+    <div style="grid-column: span 2"><label>Nombre estandarizado</label><input name="nombre" required maxlength="100" style="width:100%" value="{{ p.nombre if p }}"></div>
+    <div><label>Precio detalle (CLP)</label><input name="precio_det" type="number" min="1" required value="{{ p.precio_det if p }}"></div>
+    <div><label>Precio mayor (CLP)</label><input name="precio_may" type="number" min="1" required value="{{ p.precio_may if p }}"></div>
+    <div><label>Categoria</label><select name="id_categoria">
+      {% for c in categorias %}<option value="{{ c.id_categoria }}" {{ 'selected' if p and p.id_categoria==c.id_categoria }}>{{ c.nombre }}</option>{% endfor %}</select></div>
+    <div><label>Marca</label><select name="id_marca">
+      {% for m in marcas %}<option value="{{ m.id_marca }}" {{ 'selected' if p and p.id_marca==m.id_marca }}>{{ m.nombre }}</option>{% endfor %}</select></div>
+    <div><label>Proveedor</label><select name="id_proveedor">
+      {% for v in proveedores %}<option value="{{ v.id_proveedor }}" {{ 'selected' if p and p.id_proveedor==v.id_proveedor }}>{{ v.razon_social }}</option>{% endfor %}</select></div>
+    {% if not p %}<div><label>Stock inicial</label><input name="cantidad" type="number" min="0" value="0"></div>{% endif %}
+    <div><label>Stock minimo</label><input name="stock_min" type="number" min="0" value="{{ p.stock_min if p else 0 }}"></div>
+  </div>
+  <p class="ayuda">El SKU es llave secundaria (UNIQUE): no se puede registrar dos veces el mismo producto. El precio mayor no puede superar al de detalle (CHECK).</p>
+  <button>Guardar</button> <a class="btn btn-sec" href="{{ url_for('productos') }}">Cancelar</a>
+</form>
+{% endblock %}

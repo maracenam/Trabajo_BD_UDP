@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block titulo %}Productos{% endblock %}
+{% block contenido %}
+<h1>Productos y stock</h1>
+<form class="filtros" method="get">
+  <div><label>Buscar (nombre, marca o SKU)</label><input name="q" value="{{ q }}" placeholder="Ej: Chocolate"></div>
+  <div><label>Categoria</label>
+    <select name="categoria"><option value="">Todas</option>
+      {% for c in categorias %}<option value="{{ c.id_categoria }}" {{ 'selected' if cat==c.id_categoria }}>{{ c.nombre }}</option>{% endfor %}
+    </select></div>
+  <div><button>Buscar</button></div>
+  <div><a class="btn btn-sec" href="{{ url_for('producto_nuevo') }}">+ Nuevo producto</a></div>
+</form>
+<p class="ayuda">{{ filas|length }} productos. La busqueda por nombre usa el indice secundario <code>idx_producto_nombre</code>.</p>
+<div class="tabla-scroll"><table>
+  <tr><th>SKU</th><th>Producto</th><th>Categoria</th><th>Marca</th><th class="num">Detalle</th><th class="num">Mayor</th>
+      <th class="num">Stock</th><th class="num">Min.</th><th>Estado</th><th>Ingreso</th><th></th></tr>
+  {% for p in filas %}
+  <tr>
+    <td>{{ p.sku }}</td><td>{{ p.producto }}</td><td>{{ p.categoria }}</td><td>{{ p.marca }}</td>
+    <td class="num">{{ p.precio_det|clp }}</td><td class="num">{{ p.precio_may|clp }}</td>
+    <td class="num">{{ p.cantidad }}</td><td class="num">{{ p.stock_min }}</td>
+    <td><span class="badge b-{{ p.estado_stock }}">{{ p.estado_stock }}</span></td>
+    <td><form class="inline" method="post" action="{{ url_for('stock_ingreso', id_producto=p.id_producto) }}">
+        <input name="unidades" type="number" min="1" style="width:70px" placeholder="+unid">
+        <button class="btn-chico">OK</button></form></td>
+    <td style="white-space:nowrap">
+      <a class="btn btn-sec btn-chico" href="{{ url_for('producto_editar', id_producto=p.id_producto) }}">Editar</a>
+      <form class="inline" method="post" action="{{ url_for('producto_eliminar', id_producto=p.id_producto) }}"
+            onsubmit="return confirm('Eliminar {{ p.producto }}?')">
+        <button class="btn-peligro btn-chico">Eliminar</button></form>
+    </td>
+  </tr>
+  {% endfor %}
+</table></div>
+{% endblock %}
