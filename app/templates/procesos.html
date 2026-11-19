@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block titulo %}Procesos masivos{% endblock %}
+{% block contenido %}
+<h1>Procesamiento masivo</h1>
+<p class="ayuda">Cada boton ejecuta un procedimiento almacenado. Todos trabajan dentro de una transaccion (COMMIT / ROLLBACK).</p>
+<div class="grid2">
+  <form method="post" class="caja"><input type="hidden" name="accion" value="reajuste">
+    <h2>Reajuste masivo de precios</h2>
+    <p class="ayuda"><code>sp_reajuste_precios</code>: recorre los productos con un cursor, redondea a la decena y deja auditoria en <code>historial_precio</code>.</p>
+    <div class="campos">
+      <div><label>Categoria</label><select name="id_categoria"><option value="">Todo el catalogo</option>
+        {% for c in categorias %}<option value="{{ c.id_categoria }}">{{ c.nombre }}</option>{% endfor %}</select></div>
+      <div><label>Porcentaje (%)</label><input name="porcentaje" type="number" step="0.01" value="5" required></div>
+      <div><label>Motivo</label><input name="motivo" value="Alza de proveedor"></div>
+    </div><p><button>Aplicar reajuste</button></p>
+  </form>
+  <form method="post" class="caja"><input type="hidden" name="accion" value="reposicion">
+    <h2>Reposicion automatica de stock</h2>
+    <p class="ayuda"><code>sp_reposicion_masiva</code>: todo producto bajo su minimo se repone hasta N veces el minimo.</p>
+    <div class="campos"><div><label>Factor (veces el minimo)</label><input name="factor" type="number" min="1" value="3"></div></div>
+    <p><button>Reponer</button></p>
+  </form>
+  <form method="post" class="caja"><input type="hidden" name="accion" value="cierre">
+    <h2>Cierre del dia</h2>
+    <p class="ayuda"><code>sp_cierre_dia</code>: anula los tickets que quedaron sin atender hasta la fecha.</p>
+    <div class="campos"><div><label>Fecha</label><input name="fecha" type="date" value="{{ hoy }}"></div></div>
+    <p><button>Cerrar dia</button></p>
+  </form>
+  <form method="post" class="caja"><input type="hidden" name="accion" value="recalcular">
+    <h2>Verificar totales desnormalizados</h2>
+    <p class="ayuda"><code>sp_recalcular_totales</code>: compara <code>venta.total</code> con la suma del detalle y corrige diferencias.</p>
+    <p><button>Verificar</button></p>
+  </form>
+  <form method="post" class="caja"><input type="hidden" name="accion" value="simular">
+    <h2>Carga masiva de ventas (simulacion)</h2>
+    <p class="ayuda"><code>sp_generar_ventas_simuladas</code>: genera N ventas aleatorias (simula temporada alta) pasando por <code>sp_registrar_venta</code>.</p>
+    <div class="campos">
+      <div><label>Cantidad de ventas</label><input name="cantidad" type="number" min="1" max="20000" value="500"></div>
+      <div><label>Repartidas en los ultimos (dias)</label><input name="dias" type="number" min="1" value="60"></div>
+    </div><p><button>Generar</button></p>
+  </form>
+</div>
+<h2>Ultimos cambios de precio (historial_precio)</h2>
+<div class="tabla-scroll"><table>
+  <tr><th>Fecha</th><th>Producto</th><th class="num">Detalle antes</th><th class="num">Detalle nuevo</th>
+      <th class="num">Mayor antes</th><th class="num">Mayor nuevo</th><th>Motivo</th></tr>
+  {% for h in historial %}
+  <tr><td>{{ h.fecha_cambio }}</td><td>{{ h.nombre }}</td>
+      <td class="num">{{ h.precio_det_ant|clp }}</td><td class="num">{{ h.precio_det_nuevo|clp }}</td>
+      <td class="num">{{ h.precio_may_ant|clp }}</td><td class="num">{{ h.precio_may_nuevo|clp }}</td><td>{{ h.motivo }}</td></tr>
+  {% else %}<tr><td colspan="7">Sin cambios registrados.</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

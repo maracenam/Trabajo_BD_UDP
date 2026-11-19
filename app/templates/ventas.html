@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block titulo %}Ventas{% endblock %}
+{% block contenido %}
+<h1>Ventas</h1>
+<form class="filtros" method="get">
+  <div><label>Desde</label><input type="date" name="desde" value="{{ desde or '' }}"></div>
+  <div><label>Hasta</label><input type="date" name="hasta" value="{{ hasta or '' }}"></div>
+  <div><button>Filtrar</button></div>
+  <div><a class="btn btn-sec" href="{{ url_for('venta_nueva') }}">+ Nueva venta</a></div>
+</form>
+<p class="ayuda">{{ filas|length }} ventas (max. 300) · Total {{ total|clp }} · Fuente: vista <code>v_resumen_ventas</code>, columna desnormalizada <code>venta.total</code>.</p>
+<div class="tabla-scroll"><table>
+  <tr><th>#</th><th>Fecha</th><th>Hora</th><th>Ticket</th><th>Cliente</th><th>Tipo</th><th>Empleado</th><th class="num">Lineas</th><th class="num">Total</th></tr>
+  {% for v in filas %}
+  <tr><td><a href="{{ url_for('venta_detalle', id_venta=v.id_venta) }}">{{ v.id_venta }}</a></td>
+      <td class="f">{{ v.fecha }}</td><td>{{ v.hora }}</td><td>{{ v.numero_ticket }}</td><td>{{ v.cliente }}</td>
+      <td>{{ v.tipo_cliente }}</td><td>{{ v.empleado }}</td><td class="num">{{ v.lineas }}</td>
+      <td class="num">{{ v.total|clp }}</td></tr>
+  {% endfor %}
+</table></div>
+{% endblock %}
