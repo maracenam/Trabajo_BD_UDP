@@ -1,0 +1,453 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-19T03:38:26+00:00",
+  "title": "Design System: Confitería La Mundial · Sistema de mesón",
+  "extensions": {
+    "colorMeta": {
+      "rojo": {
+        "role": "primary",
+        "displayName": "Rojo marcador",
+        "canonical": "oklch(56.7% 0.212 28.8)",
+        "tonalRamp": [
+          "#1E0101",
+          "#4B0403",
+          "#7E0D09",
+          "#B41712",
+          "#DD4639",
+          "#F27E6F",
+          "#FFB0A3",
+          "#FFE1D9"
+        ]
+      },
+      "amarillo": {
+        "role": "secondary",
+        "displayName": "Amarillo cartulina",
+        "canonical": "oklch(90.9% 0.165 97.6)",
+        "tonalRamp": [
+          "#100B00",
+          "#302400",
+          "#534000",
+          "#795F00",
+          "#9B8100",
+          "#B8A54B",
+          "#D7CA8E",
+          "#F6EFCD"
+        ]
+      },
+      "tinta": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "oklch(0.0% 0.000 0.0)",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "tinta-2": {
+        "role": "neutral",
+        "displayName": "Tinta gastada",
+        "canonical": "oklch(40.9% 0.000 89.9)",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "linea": {
+        "role": "neutral",
+        "displayName": "Línea de lápiz",
+        "canonical": "oklch(88.9% 0.007 88.6)",
+        "tonalRamp": [
+          "#0B0B0A",
+          "#262523",
+          "#43423F",
+          "#63615D",
+          "#84827E",
+          "#A6A5A2",
+          "#CAC9C7",
+          "#EFEEED"
+        ]
+      },
+      "cartulina": {
+        "role": "neutral",
+        "displayName": "Cartulina",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "fondo": {
+        "role": "neutral",
+        "displayName": "Fondo",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#EEEEEE"
+        ]
+      },
+      "ok": {
+        "role": "status",
+        "displayName": "Verde atendido",
+        "canonical": "oklch(48.1% 0.118 151.5)",
+        "tonalRamp": [
+          "#020F05",
+          "#0B2D16",
+          "#1A4E2B",
+          "#297241",
+          "#4D9462",
+          "#7FB48C",
+          "#AFD4B7",
+          "#E0F5E4"
+        ]
+      },
+      "ok-fondo": {
+        "role": "status",
+        "displayName": "Verde atendido, fondo",
+        "canonical": "oklch(94.4% 0.022 154.1)",
+        "tonalRamp": [
+          "#090C0A",
+          "#212723",
+          "#3C443E",
+          "#59655C",
+          "#7A867D",
+          "#9EA8A1",
+          "#C4CBC6",
+          "#ECF0ED"
+        ]
+      },
+      "alerta": {
+        "role": "status",
+        "displayName": "Ámbar reponer",
+        "canonical": "oklch(49.2% 0.110 66.0)",
+        "tonalRamp": [
+          "#140801",
+          "#361F05",
+          "#5D390D",
+          "#865418",
+          "#AA763D",
+          "#C69C72",
+          "#E1C3A6",
+          "#FDEBDA"
+        ]
+      },
+      "alerta-fondo": {
+        "role": "status",
+        "displayName": "Ámbar reponer, fondo",
+        "canonical": "oklch(95.7% 0.055 90.3)",
+        "tonalRamp": [
+          "#0E0B05",
+          "#2A2516",
+          "#4A412A",
+          "#6C6040",
+          "#8E8260",
+          "#AEA58A",
+          "#D0C9B6",
+          "#F2EEE3"
+        ]
+      },
+      "error": {
+        "role": "status",
+        "displayName": "Rojo error",
+        "canonical": "oklch(48.9% 0.190 29.3)",
+        "tonalRamp": [
+          "#1C0201",
+          "#480B07",
+          "#781A12",
+          "#AD291E",
+          "#D55041",
+          "#EB8374",
+          "#FFB3A7",
+          "#FFE2DB"
+        ]
+      },
+      "error-fondo": {
+        "role": "status",
+        "displayName": "Rojo error, fondo",
+        "canonical": "oklch(93.6% 0.029 25.6)",
+        "tonalRamp": [
+          "#0E0A09",
+          "#2C2322",
+          "#4C3E3D",
+          "#6F5C5A",
+          "#917D7A",
+          "#B1A19F",
+          "#D2C6C4",
+          "#F4EDEC"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "marca": {
+        "displayName": "Marca",
+        "purpose": "Solo el logotipo \"La Mundial\", girado −4°."
+      },
+      "rotulo-turno": {
+        "displayName": "Rótulo turno",
+        "purpose": "Próximo número en el cartel del Mesón."
+      },
+      "rotulo-total": {
+        "displayName": "Rótulo total",
+        "purpose": "Total a cobrar en Nueva venta (34px en móvil)."
+      },
+      "rotulo-precio": {
+        "displayName": "Rótulo precio",
+        "purpose": "Etiqueta de precio al detalle en el catálogo."
+      },
+      "display": {
+        "displayName": "Display",
+        "purpose": "Un H1 por pantalla."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Títulos de sección y panel."
+      },
+      "cifra": {
+        "displayName": "Cifra",
+        "purpose": "Valores de la franja de cifras del día."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Ítems de menú y pestañas."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto corriente; tablas a 15.5px."
+      },
+      "bajada": {
+        "displayName": "Bajada",
+        "purpose": "Frase bajo el H1, máx. 66ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Etiquetas de campo."
+      },
+      "encabezado-tabla": {
+        "displayName": "Encabezado de tabla",
+        "purpose": "Encabezados de columna sobre línea negra de 2px."
+      },
+      "nota": {
+        "displayName": "Nota",
+        "purpose": "Notas técnicas de base de datos y texto tenue, máx. 75ch."
+      }
+    },
+    "shadows": [
+      {
+        "name": "trazo-divisor",
+        "value": "2px 0 0 var(--linea), 0 2px 0 var(--linea)",
+        "purpose": "Divisor duro entre celdas de la franja de cifras y la grilla de procesos. No es elevación."
+      }
+    ],
+    "motion": [
+      {
+        "name": "colgar",
+        "value": ".7s cubic-bezier(.2, .8, .25, 1) both; from translateY(-18px) rotate(-6deg) opacity 0 to rotate(-1.2deg)",
+        "purpose": "El cartel de turno se cuelga al entregar un número nuevo; solo con prefers-reduced-motion: no-preference."
+      },
+      {
+        "name": "presion",
+        "value": "translateY(1px)",
+        "purpose": "Botón activo (no deshabilitado) baja 1px al presionar."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "movil",
+        "value": "640px",
+        "purpose": "max-width: catálogo como bloques, columnas secundarias ocultas."
+      },
+      {
+        "name": "tablet",
+        "value": "960px",
+        "purpose": "max-width: una columna, menú a ancho completo, total como barra pegajosa inferior."
+      },
+      {
+        "name": "ancho",
+        "value": "1100px",
+        "purpose": "min-width: el último proceso ocupa dos columnas."
+      },
+      {
+        "name": "contenedor",
+        "value": "1280px",
+        "purpose": "Ancho máximo de barra, contenido y pie."
+      }
+    ],
+    "rotations": [
+      {
+        "name": "cartel",
+        "value": "rotate(-1.2deg)"
+      },
+      {
+        "name": "precio",
+        "value": "rotate(-2deg)"
+      },
+      {
+        "name": "marca",
+        "value": "rotate(-4deg)"
+      }
+    ],
+    "focus": [
+      {
+        "name": "foco-global",
+        "value": "outline: 3px solid var(--rojo); outline-offset: 2px",
+        "purpose": ":focus-visible en enlaces, botones y pestañas."
+      },
+      {
+        "name": "foco-campo",
+        "value": "border-color: var(--tinta); outline: 3px solid var(--amarillo); outline-offset: 0",
+        "purpose": "Campos y selects."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón primario",
+      "kind": "button",
+      "refersTo": "boton",
+      "description": "Acción principal de cada bloque: negro que se vuelve rojo marcador.",
+      "html": "<button class=\"ds-boton\">Entregar número 16</button>",
+      "css": ".ds-boton { font-family: var(--ui, Archivo, Helvetica, Arial, sans-serif); font-weight: 800; font-size: 16px; line-height: 1; background: var(--tinta, #000000); color: #fff; border: 2px solid var(--tinta, #000000); border-radius: 4px; padding: 0 20px; min-height: 46px; cursor: pointer; display: inline-flex; align-items: center; white-space: nowrap; } .ds-boton:hover { background: var(--rojo, #D7261E); border-color: var(--rojo, #D7261E); } .ds-boton:active { transform: translateY(1px); } .ds-boton:focus-visible { outline: 3px solid var(--rojo, #D7261E); outline-offset: 2px; }"
+    },
+    {
+      "name": "Botón secundario",
+      "kind": "button",
+      "refersTo": "boton-sec",
+      "description": "Acción secundaria: blanco con borde negro, hover amarillo cartulina.",
+      "html": "<button class=\"ds-boton-sec\">Entregar número nuevo</button>",
+      "css": ".ds-boton-sec { font-family: var(--ui, Archivo, Helvetica, Arial, sans-serif); font-weight: 800; font-size: 16px; line-height: 1; background: #fff; color: var(--tinta, #000000); border: 2px solid var(--tinta, #000000); border-radius: 4px; padding: 0 20px; min-height: 46px; cursor: pointer; display: inline-flex; align-items: center; white-space: nowrap; } .ds-boton-sec:hover { background: var(--amarillo, #FFE14A); } .ds-boton-sec:active { transform: translateY(1px); } .ds-boton-sec:focus-visible { outline: 3px solid var(--rojo, #D7261E); outline-offset: 2px; }"
+    },
+    {
+      "name": "Botón peligro (chico)",
+      "kind": "button",
+      "refersTo": "boton-peligro",
+      "description": "Acción destructiva por fila, en tamaño chico de 36px.",
+      "html": "<button class=\"ds-boton-peligro\">Eliminar</button>",
+      "css": ".ds-boton-peligro { font-family: var(--ui, Archivo, Helvetica, Arial, sans-serif); font-weight: 800; font-size: 14px; line-height: 1; background: #fff; color: var(--error, #B3150D); border: 2px solid currentColor; border-radius: 4px; padding: 0 12px; min-height: 36px; cursor: pointer; display: inline-flex; align-items: center; } .ds-boton-peligro:hover { background: var(--error-fondo, #FDE3E0); } .ds-boton-peligro:focus-visible { outline: 3px solid var(--rojo, #D7261E); outline-offset: 2px; }"
+    },
+    {
+      "name": "Campo de búsqueda",
+      "kind": "input",
+      "refersTo": "campo",
+      "description": "Campo con etiqueta en negrita; foco con anillo amarillo y caret rojo.",
+      "html": "<label class=\"ds-label\" for=\"ds-q\">Buscar</label><input id=\"ds-q\" class=\"ds-campo\" placeholder=\"Nombre, marca o código de barras\">",
+      "css": ".ds-label { display: block; font-family: var(--ui, Archivo, Helvetica, Arial, sans-serif); font-size: 14.5px; font-weight: 700; margin-bottom: 5px; color: var(--tinta, #000000); } .ds-campo { font-family: var(--ui, Archivo, Helvetica, Arial, sans-serif); font-weight: 500; font-size: 16px; line-height: 1.3; color: var(--tinta, #000000); background: #fff; width: 100%; max-width: 360px; padding: 9px 11px; border: 2px solid #9A968E; border-radius: 4px; min-height: 44px; caret-color: var(--rojo, #D7261E); box-sizing: border-box; } .ds-campo::placeholder { color: var(--tinta-2, #4A4A4A); opacity: 1; } .ds-campo:hover { border-color: var(--tinta, #000000); } .ds-campo:focus { border-color: var(--tinta, #000000); outline: 3px solid var(--amarillo, #FFE14A); outline-offset: 0; }"
+    },
+    {
+      "name": "Menú en pestañas",
+      "kind": "nav",
+      "refersTo": "menu-item",
+      "description": "Navegación superior sobre línea negra de 3px; actual en negro, hover amarillo.",
+      "html": "<nav class=\"ds-menu\"><a href=\"#\" aria-current=\"page\">Mesón</a><a href=\"#\">Nueva venta</a><a href=\"#\">Productos y stock</a><a href=\"#\">Reportes</a></nav>",
+      "css": ".ds-menu { display: flex; gap: 2px; border-bottom: 3px solid var(--tinta, #000000); background: #fff; padding: 0 8px; } .ds-menu a { font-family: var(--ui, Archivo, Helvetica, Arial, sans-serif); font-weight: 700; font-size: 15px; line-height: 1; color: var(--tinta, #000000); text-decoration: none; padding: 14px 14px 13px; border-radius: 4px 4px 0 0; } .ds-menu a:hover { background: var(--amarillo, #FFE14A); } .ds-menu a[aria-current=\"page\"] { background: var(--tinta, #000000); color: #fff; } .ds-menu a:focus-visible { outline: 3px solid var(--rojo, #D7261E); outline-offset: 2px; }"
+    },
+    {
+      "name": "Cartel de turno",
+      "kind": "custom",
+      "refersTo": "cartel",
+      "description": "Firma del sistema: cartulina amarilla girada con el próximo número en Knewave roja.",
+      "html": "<section class=\"ds-cartel\"><h2>Próximo número</h2><span class=\"ds-rotulo\">16</span><div class=\"ds-lado\"><p>8 clientes esperan su turno.</p><button class=\"ds-cartel-boton\">Entregar número 16</button></div></section>",
+      "css": ".ds-cartel { background: var(--amarillo, #FFE14A); border: 2px solid var(--tinta, #000000); border-radius: 3px; color: var(--tinta, #000000); transform: rotate(-1.2deg); padding: 26px 32px 28px; display: grid; grid-template-columns: auto 1fr; gap: 8px 32px; align-items: center; max-width: 620px; font-family: var(--ui, Archivo, Helvetica, Arial, sans-serif); } .ds-cartel h2 { grid-column: 1 / -1; font-weight: 800; font-size: 20px; line-height: 1.1; margin: 0; } .ds-rotulo { font-family: Knewave, Archivo, sans-serif; color: var(--rojo, #D7261E); letter-spacing: .02em; line-height: .82; font-size: 140px; padding-top: 10px; } .ds-lado { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; } .ds-lado p { margin: 0; font-size: 17px; font-weight: 600; } .ds-cartel-boton { font-weight: 800; font-size: 16px; background: var(--tinta, #000000); color: #fff; border: 2px solid var(--tinta, #000000); border-radius: 4px; padding: 0 20px; min-height: 46px; cursor: pointer; } .ds-cartel-boton:hover { background: var(--rojo, #D7261E); border-color: var(--rojo, #D7261E); } .ds-cartel-boton:focus-visible { outline: 3px solid var(--rojo, #D7261E); outline-offset: 2px; }"
+    },
+    {
+      "name": "Etiqueta de precio",
+      "kind": "chip",
+      "refersTo": "precio",
+      "description": "Mini-cartel inline para el precio al detalle del catálogo.",
+      "html": "<span class=\"ds-precio\">$1.290</span>",
+      "css": ".ds-precio { display: inline-block; background: var(--amarillo, #FFE14A); border: 1.5px solid var(--tinta, #000000); border-radius: 2px; padding: 3px 8px 1px; font: 400 17px/1.15 Knewave, Archivo, sans-serif; letter-spacing: .03em; color: var(--rojo, #D7261E); transform: rotate(-2deg); white-space: nowrap; }"
+    },
+    {
+      "name": "Estados de stock",
+      "kind": "chip",
+      "refersTo": "estado-ok",
+      "description": "Chips de estado con borde del color del texto: OK, reponer, sin stock.",
+      "html": "<span class=\"ds-estado ds-e-ok\">OK</span> <span class=\"ds-estado ds-e-reponer\">Reponer</span> <span class=\"ds-estado ds-e-sin\">Sin stock</span>",
+      "css": ".ds-estado { display: inline-block; padding: 2px 8px; border-radius: 3px; font-family: var(--ui, Archivo, Helvetica, Arial, sans-serif); font-size: 13px; font-weight: 700; white-space: nowrap; border: 1.5px solid currentColor; } .ds-e-ok { color: var(--ok, #17703A); background: var(--ok-fondo, #E2F1E6); } .ds-e-reponer { color: var(--alerta, #8A5200); background: var(--alerta-fondo, #FFF0C7); } .ds-e-sin { color: var(--error, #B3150D); background: var(--error-fondo, #FDE3E0); }"
+    },
+    {
+      "name": "Franja de cifras",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Cifras del día en un solo contenedor con borde negro y celdas divididas por trazo de lápiz.",
+      "html": "<dl class=\"ds-cifras\"><div class=\"ds-cifra\"><dt>Vendido hoy</dt><dd>$138.370</dd></div><div class=\"ds-cifra\"><dt>Ventas de hoy</dt><dd>6</dd></div><div class=\"ds-cifra ds-atencion\"><dt>Productos por reponer</dt><dd>2</dd></div></dl>",
+      "css": ".ds-cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin: 0; background: #fff; border: 2px solid var(--tinta, #000000); border-radius: 4px; overflow: hidden; font-family: var(--ui, Archivo, Helvetica, Arial, sans-serif); font-variant-numeric: tabular-nums; } .ds-cifra { padding: 14px 20px 16px; box-shadow: 2px 0 0 var(--linea, #DCDAD5), 0 2px 0 var(--linea, #DCDAD5); display: flex; flex-direction: column-reverse; justify-content: flex-end; } .ds-cifra dd { margin: 0; font-weight: 900; font-size: 30px; line-height: 1.05; font-stretch: 80%; color: var(--tinta, #000000); } .ds-cifra dt { color: var(--tinta-2, #4A4A4A); font-size: 14px; font-weight: 600; margin-top: 2px; } .ds-atencion dd { color: var(--rojo, #D7261E); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El cartel del mayorista",
+    "overview": "La interfaz se comporta como el mesón de un mayorista de confites de Santiago: cartulina blanca, tinta negra plena, el rojo marcador del logo y, donde importa una cifra que debe leerse desde la fila, un cartel de cartulina amarilla rotulado a mano y colgado levemente torcido. Todo lo demás es mostrador de trabajo: tablas con borde negro, botones negros que se vuelven rojos, etiquetas en Archivo pesada. Rechaza explícitamente el panel SaaS gris con tarjetas KPI y el kitsch pastel de dulcería.\n\nLa densidad es de herramienta de mesón, no de tablero: textos grandes, alto contraste y controles de al menos 44 px, porque se usa de pie en hora punta y se proyecta en sala de clases. La expresividad está concentrada en tres lugares (la marca manuscrita, el número de turno y los precios/total rotulados); el resto del sistema es sobrio a propósito para que esos tres griten.\n\nLos elementos de base de datos que se evalúan (vista, índice, procedimientos, transacciones) aparecen como notas discretas en gris con el nombre técnico en `code`, nunca como carteles.",
+    "keyCharacteristics": [
+      "Fondo y paneles blanco puro; tinta negra `#000` para texto, bordes y botón primario.",
+      "Bordes negros de 2px y esquinas casi rectas (2–4px) en todo contenedor.",
+      "Cartel amarillo girado como único gesto decorativo, reservado a turno, precio y total.",
+      "Tres familias con funciones cerradas: Archivo (interfaz), Yellowtail (marca), Knewave (cifras de cartel).",
+      "Cifras tabulares en todo el documento; montos CLP sin decimales.",
+      "Sin sombras difusas: la profundidad es borde y color, no elevación."
+    ],
+    "rules": [
+      {
+        "name": "The Cartulina Amarilla Rule",
+        "body": "El amarillo en reposo solo vive dentro de un cartel (turno, precio, total). Fuera de él aparece únicamente como respuesta a hover, foco o selección.",
+        "section": "colors"
+      },
+      {
+        "name": "The Un Solo Rojo Rule",
+        "body": "`rojo` es marca y cifra de cartel; `error` es error. No se intercambian.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tres Voces Rule",
+        "body": "Yellowtail solo dice \"La Mundial\"; Knewave solo rotula cifras de cartel (turno, precio, total); todo lo demás es Archivo. Knewave nunca entra a tablas densas de reportes, ventas o historial.",
+        "section": "typography"
+      },
+      {
+        "name": "The Cifra Tabular Rule",
+        "body": "`font-variant-numeric: tabular-nums` está en `body`; montos y cantidades se alinean a la derecha en tablas.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sin Sombra Rule",
+        "body": "Nada flota. Un elemento se distingue por borde, color o rotación, nunca por sombra difusa.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** reservar Knewave roja sobre cartulina amarilla para el número de turno, el precio al detalle del catálogo y el total de la venta.",
+      "**Do** delimitar todo contenedor con borde `tinta` de 2px y esquina de 2–4px.",
+      "**Do** usar el botón negro que se vuelve rojo como única acción primaria por bloque; las demás van como secundario blanco.",
+      "**Do** mostrar los elementos de base de datos evaluados como `.nota` gris con el nombre técnico en `code`.",
+      "**Do** mantener controles de al menos 44px y el foco visible (anillo rojo de 3px; amarillo en campos).",
+      "**Do** proteger el movimiento del cartel con `prefers-reduced-motion`."
+    ],
+    "donts": [
+      "**Don't** usar Knewave ni el cartel amarillo en tablas densas de reportes, ventas o historial.",
+      "**Don't** usar Yellowtail para nada que no sea \"La Mundial\".",
+      "**Don't** agregar sombras difusas ni tarjetas KPI flotantes estilo panel SaaS gris.",
+      "**Don't** introducir pasteles de dulcería ni nuevos acentos de color fuera de `rojo` y `amarillo`.",
+      "**Don't** usar `rojo` de marca para errores ni `error` como acento de marca."
+    ]
+  }
+}
