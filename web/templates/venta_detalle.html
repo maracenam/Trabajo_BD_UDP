@@ -1,24 +1,30 @@
 {% extends 'base.html' %}
 {% block titulo %}Venta {{ v.id_venta }}{% endblock %}
 {% block contenido %}
-<h1>Venta #{{ v.id_venta }}</h1>
-<div class="caja">
-  <div class="campos">
-    <div><label>Fecha y hora</label>{{ v.fecha }} {{ v.hora }}</div>
-    <div><label>Ticket</label>N° {{ v.numero_ticket }}</div>
-    <div><label>Cliente</label>{{ v.cliente }} ({{ v.rut_cliente }})</div>
-    <div><label>Tipo de cliente</label>{{ v.tipo_cliente }}</div>
-    <div><label>Atendido por</label>{{ v.empleado }}</div>
-  </div>
+<div class="cabecera">
+  <div><h1>Venta N° {{ v.id_venta }}</h1>
+  <p class="bajada">{{ v.fecha|fecha }} a las {{ v.hora|hora }}, ticket {{ v.numero_ticket }}.</p></div>
+  <a class="boton sec" href="{{ url_for('ventas') }}">Volver a ventas</a>
 </div>
-<h2>Detalle</h2>
-<div class="tabla-scroll"><table>
-  <tr><th>SKU</th><th>Producto</th><th class="num">Cantidad</th><th class="num">Precio unit.</th><th class="num">Subtotal</th></tr>
+<div class="panel">
+  <dl class="datos">
+    <div><dt>Cliente</dt><dd>{{ v.cliente }}</dd></div>
+    <div><dt>RUT o pasaporte</dt><dd>{{ v.rut_cliente }}</dd></div>
+    <div><dt>Tipo de cliente</dt><dd>{{ v.tipo_cliente }}</dd></div>
+    <div><dt>Atendió</dt><dd>{{ v.empleado }}</dd></div>
+  </dl>
+</div>
+<section style="margin-top:28px">
+<h2>Productos</h2>
+<div class="tabla"><table>
+  <thead><tr><th>Producto</th><th class="num">Cantidad</th><th class="num">Precio</th><th class="num">Subtotal</th></tr></thead>
+  <tbody>
   {% for l in lineas %}
-  <tr><td>{{ l.sku }}</td><td>{{ l.nombre }}</td><td class="num">{{ l.cantidad }}</td>
+  <tr><td>{{ l.nombre }}<br><span class="tenue">SKU {{ l.sku }}</span></td><td class="num">{{ l.cantidad }}</td>
       <td class="num">{{ l.precio_unit|clp }}</td><td class="num">{{ l.subtotal|clp }}</td></tr>
   {% endfor %}
-  <tr><th colspan="4" class="num">TOTAL</th><th class="num">{{ v.total|clp }}</th></tr>
+  </tbody>
+  <tfoot><tr><td colspan="3">Total</td><td class="num">{{ v.total|clp }}</td></tr></tfoot>
 </table></div>
-<p><a class="btn btn-sec" href="{{ url_for('ventas') }}">Volver</a></p>
+</section>
 {% endblock %}

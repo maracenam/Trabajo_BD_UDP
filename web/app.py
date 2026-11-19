@@ -69,6 +69,45 @@ def clp(valor):
     return "$" + f"{int(float(valor)):,}".replace(",", ".")
 
 
+# ---- Filtros de presentacion (compartidos con la otra version de la app) ----
+ESTADOS = {"OK": "Al día", "REPONER": "Reponer", "SIN STOCK": "Sin stock",
+           "emitido": "En espera", "atendido": "Atendido", "anulado": "Anulado"}
+MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+
+
+@app.template_filter("estado")
+def f_estado(valor):
+    return ESTADOS.get(valor, valor)
+
+
+@app.template_filter("slug")
+def f_slug(valor):
+    return str(valor).lower().replace(" ", "-")
+
+
+@app.template_filter("fecha")
+def f_fecha(valor):
+    s = str(valor)[:10]
+    try:
+        a, m, d = s.split("-")
+        return f"{int(d)} {MESES[int(m) - 1]} {a}"
+    except (ValueError, IndexError):
+        return s
+
+
+@app.template_filter("hora")
+def f_hora(valor):
+    if hasattr(valor, "total_seconds"):          # MySQL entrega TIME como timedelta
+        seg = int(valor.total_seconds())
+        return f"{seg // 3600:02d}:{seg % 3600 // 60:02d}"
+    return str(valor)[:5]
+
+
+@app.template_filter("corto")
+def f_corto(valor):
+    return str(valor)[:16].replace("T", " ")
+
+
 @app.errorhandler(ErrorBD)
 def error_bd(e):
     flash("Error de base de datos: " + str(e), "error")
@@ -77,7 +116,7 @@ def error_bd(e):
 
 @app.context_processor
 def contexto():
-    return {"motor": "PostgreSQL · Supabase"}
+    return {"motor": "PostgreSQL en Supabase"}
 
 
 # ---------------------------------------------------------------------
@@ -87,7 +126,10 @@ def inicio():
     ultimas = leer("v_resumen_ventas", order="fecha.desc,hora.desc", limit=8)
     reponer = leer("v_stock_productos", select="producto,cantidad,stock_min,estado_stock",
                    estado_stock="neq.OK", order="unidades_faltantes.desc", limit=8)
-    return render_template("inicio.html", kpi=kpi, ultimas=ultimas, reponer=reponer)
+    ult = leer("ticket", select="numero", fecha=f"eq.{hoy()}", order="numero.desc", limit=1)
+    siguiente = (ult[0]["numero"] if ult else 0) + 1
+    return render_template("inicio.html", kpi=kpi, ultimas=ultimas, reponer=reponer,
+                           siguiente=siguiente, nuevo_ticket=bool(request.args.get("nuevo")))
 
 
 def catalogos():
@@ -205,7 +247,9 @@ def venta_detalle(id_venta):
 @app.route("/ventas/ticket", methods=["POST"])
 def emitir_ticket():
     r = rpc("sp_emitir_ticket")[0]
-    flash(f"Ticket emitido: numero de atencion {r['numero']}.", "ok")
+    flash(f"Número {r['numero']} entregado.", "ok")
+    if request.form.get("desde") == "meson":
+        return redirect(url_for("inicio", nuevo=1))
     return redirect(url_for("venta_nueva", ticket=r["id_ticket"]))
 
 

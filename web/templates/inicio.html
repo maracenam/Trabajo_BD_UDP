@@ -1,36 +1,62 @@
 {% extends 'base.html' %}
-{% block titulo %}Inicio{% endblock %}
+{% block titulo %}Mesón{% endblock %}
 {% block contenido %}
-<h1>Panel general</h1>
-<div class="tarjetas">
-  <div class="tarjeta"><div class="n">{{ kpi.ventas_hoy }}</div><div class="l">Ventas de hoy</div></div>
-  <div class="tarjeta"><div class="n">{{ kpi.monto_hoy|clp }}</div><div class="l">Monto vendido hoy</div></div>
-  <div class="tarjeta"><div class="n">{{ kpi.tickets_pend }}</div><div class="l">Tickets en espera</div></div>
-  <div class="tarjeta"><div class="n">{{ kpi.a_reponer }}</div><div class="l">Productos a reponer</div></div>
-  <div class="tarjeta"><div class="n">{{ kpi.productos }}</div><div class="l">Productos en catalogo</div></div>
-  <div class="tarjeta"><div class="n">{{ kpi.ventas_total }}</div><div class="l">Ventas registradas</div></div>
+<div class="cabecera">
+  <div>
+    <h1>Mesón de atención</h1>
+    <p class="bajada">Entregue el número al cliente y regístrelo en Nueva venta cuando llegue su turno.</p>
+  </div>
 </div>
-<div class="grid2">
-  <div>
-    <h2>Ultimas ventas</h2>
-    <div class="tabla-scroll"><table>
-      <tr><th>#</th><th>Fecha</th><th>Cliente</th><th>Tipo</th><th class="num">Total</th></tr>
+
+<div class="ticket{{ ' nuevo' if nuevo_ticket }}">
+  <div class="ticket-num">
+    <small>Próximo número</small>
+    <strong>{{ siguiente }}</strong>
+  </div>
+  <div class="ticket-accion">
+    <p>{% if kpi.tickets_pend %}{{ kpi.tickets_pend }} {{ 'cliente espera' if kpi.tickets_pend == 1 else 'clientes esperan' }} atención.{% else %}No hay clientes esperando.{% endif %}</p>
+    <form method="post" action="{{ url_for('emitir_ticket') }}">
+      <input type="hidden" name="desde" value="meson">
+      <button class="boton">Entregar número {{ siguiente }}</button>
+    </form>
+  </div>
+</div>
+
+<dl class="indicadores">
+  <div class="indicador"><dd>{{ kpi.monto_hoy|clp }}</dd><dt>Vendido hoy</dt></div>
+  <div class="indicador"><dd>{{ kpi.ventas_hoy }}</dd><dt>Ventas de hoy</dt></div>
+  <div class="indicador{{ ' atencion' if kpi.a_reponer }}"><dd>{{ kpi.a_reponer }}</dd><dt>Productos por reponer</dt></div>
+  <div class="indicador"><dd>{{ kpi.productos }}</dd><dt>Productos en catálogo</dt></div>
+  <div class="indicador"><dd>{{ kpi.ventas_total }}</dd><dt>Ventas registradas</dt></div>
+</dl>
+
+<div class="columnas">
+  <section>
+    <h2>Últimas ventas</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Venta</th><th>Fecha</th><th>Cliente</th><th class="num">Total</th></tr></thead>
+      <tbody>
       {% for v in ultimas %}
-      <tr><td><a href="{{ url_for('venta_detalle', id_venta=v.id_venta) }}">{{ v.id_venta }}</a></td>
-          <td class="f">{{ v.fecha }}</td><td>{{ v.cliente }}</td><td>{{ v.tipo_cliente }}</td>
+      <tr><td><a href="{{ url_for('venta_detalle', id_venta=v.id_venta) }}">N° {{ v.id_venta }}</a></td>
+          <td class="f">{{ v.fecha|fecha }}</td>
+          <td>{{ v.cliente }}<br><span class="tenue">{{ v.tipo_cliente }}</span></td>
           <td class="num">{{ v.total|clp }}</td></tr>
-      {% endfor %}
+      {% else %}<tr><td colspan="4" class="vacio">Aún no hay ventas. Registre la primera en Nueva venta.</td></tr>{% endfor %}
+      </tbody>
     </table></div>
-  </div>
-  <div>
-    <h2>Stock bajo el minimo <span class="ayuda">(vista v_stock_productos)</span></h2>
-    <div class="tabla-scroll"><table>
-      <tr><th>Producto</th><th class="num">Unid.</th><th class="num">Min.</th><th>Estado</th></tr>
+  </section>
+  <section>
+    <h2>Por reponer</h2>
+    <div class="tabla"><table>
+      <thead><tr><th>Producto</th><th class="num">Quedan</th><th class="num">Mínimo</th></tr></thead>
+      <tbody>
       {% for p in reponer %}
-      <tr><td>{{ p.producto }}</td><td class="num">{{ p.cantidad }}</td><td class="num">{{ p.stock_min }}</td>
-          <td><span class="badge b-{{ p.estado_stock }}">{{ p.estado_stock }}</span></td></tr>
-      {% else %}<tr><td colspan="4">Todo el stock esta sobre el minimo.</td></tr>{% endfor %}
+      <tr><td>{{ p.producto }}<br><span class="estado e-{{ p.estado_stock|slug }}">{{ p.estado_stock|estado }}</span></td>
+          <td class="num">{{ p.cantidad }}</td><td class="num">{{ p.stock_min }}</td></tr>
+      {% else %}<tr><td colspan="3" class="vacio">Todo el stock está sobre su mínimo.</td></tr>{% endfor %}
+      </tbody>
     </table></div>
-  </div>
+    <p class="nota">Datos de la vista <code>v_stock_productos</code>.</p>
+  </section>
 </div>
 {% endblock %}

@@ -77,11 +77,55 @@ def entero(valor, defecto=None):
         return defecto
 
 
+@app.context_processor
+def contexto():
+    return {"motor": "MySQL"}
+
+
 @app.template_filter("clp")
 def clp(valor):
     if valor is None:
         return "-"
     return "$" + f"{int(valor):,}".replace(",", ".")
+
+
+# ---- Filtros de presentacion (compartidos con la otra version de la app) ----
+ESTADOS = {"OK": "Al día", "REPONER": "Reponer", "SIN STOCK": "Sin stock",
+           "emitido": "En espera", "atendido": "Atendido", "anulado": "Anulado"}
+MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+
+
+@app.template_filter("estado")
+def f_estado(valor):
+    return ESTADOS.get(valor, valor)
+
+
+@app.template_filter("slug")
+def f_slug(valor):
+    return str(valor).lower().replace(" ", "-")
+
+
+@app.template_filter("fecha")
+def f_fecha(valor):
+    s = str(valor)[:10]
+    try:
+        a, m, d = s.split("-")
+        return f"{int(d)} {MESES[int(m) - 1]} {a}"
+    except (ValueError, IndexError):
+        return s
+
+
+@app.template_filter("hora")
+def f_hora(valor):
+    if hasattr(valor, "total_seconds"):          # MySQL entrega TIME como timedelta
+        seg = int(valor.total_seconds())
+        return f"{seg // 3600:02d}:{seg % 3600 // 60:02d}"
+    return str(valor)[:5]
+
+
+@app.template_filter("corto")
+def f_corto(valor):
+    return str(valor)[:16].replace("T", " ")
 
 
 # ---------------------------------------------------------------------
@@ -104,7 +148,9 @@ def inicio():
         """SELECT producto, cantidad, stock_min, estado_stock FROM v_stock_productos
            WHERE estado_stock <> 'OK' ORDER BY unidades_faltantes DESC LIMIT 8"""
     )
-    return render_template("inicio.html", kpi=kpi, ultimas=ultimas, reponer=reponer)
+    siguiente = uno("SELECT COALESCE(MAX(numero), 0) + 1 AS n FROM ticket WHERE fecha = CURDATE()")["n"]
+    return render_template("inicio.html", kpi=kpi, ultimas=ultimas, reponer=reponer,
+                           siguiente=siguiente, nuevo_ticket=bool(request.args.get("nuevo")))
 
 
 # ---------------------------------------------------------------------
@@ -258,7 +304,9 @@ def venta_detalle(id_venta):
 @app.route("/ventas/ticket", methods=["POST"])
 def emitir_ticket():
     r = llamar("CALL sp_emitir_ticket(NULL, @t, @n)", None, ["@t", "@n"])
-    flash(f"Ticket emitido: numero de atencion {r['n']}.", "ok")
+    flash(f"Número {r['n']} entregado.", "ok")
+    if request.form.get("desde") == "meson":
+        return redirect(url_for("inicio", nuevo=1))
     return redirect(url_for("venta_nueva", ticket=r["t"]))
 
 

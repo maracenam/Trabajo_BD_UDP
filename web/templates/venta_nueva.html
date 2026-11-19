@@ -1,34 +1,36 @@
 {% extends 'base.html' %}
 {% block titulo %}Nueva venta{% endblock %}
 {% block contenido %}
-<h1>Nueva venta</h1>
-<form method="post" action="{{ url_for('emitir_ticket') }}" style="margin-bottom:16px">
-  <button class="btn-sec">Emitir nuevo ticket de atencion</button>
-  <span class="ayuda">Llama a <code>sp_emitir_ticket</code> (numero correlativo del dia).</span>
-</form>
-<form method="post" class="caja">
+<div class="cabecera">
+  <div><h1>Nueva venta</h1>
+  <p class="bajada">El precio se aplica solo: mayoristas y distribuidores pagan precio por mayor.</p></div>
+  <form method="post" action="{{ url_for('emitir_ticket') }}"><button class="boton sec">Entregar número nuevo</button></form>
+</div>
+<form method="post" class="panel">
   <div class="campos">
-    <div><label>Ticket en espera</label>
-      <select name="id_ticket" required>
-        {% for t in tickets %}<option value="{{ t.id_ticket }}" {{ 'selected' if ticket_sel==t.id_ticket }}>N° {{ t.numero }} · {{ t.fecha }} {{ t.hora }}</option>
-        {% else %}<option value="">(emita un ticket primero)</option>{% endfor %}
+    <div><label for="id_ticket">Número en espera</label>
+      <select id="id_ticket" name="id_ticket" required>
+        {% for t in tickets %}<option value="{{ t.id_ticket }}" {{ 'selected' if ticket_sel==t.id_ticket }}>N° {{ t.numero }}, {{ t.fecha|fecha }} {{ t.hora|hora }}</option>
+        {% else %}<option value="">Nadie espera: entregue un número primero</option>{% endfor %}
       </select></div>
-    <div><label>Cliente</label>
-      <select name="id_cliente">{% for c in clientes %}<option value="{{ c.id_cliente }}">{{ c.nombre }} · {{ c.tipo }}</option>{% endfor %}</select></div>
-    <div><label>Empleado</label>
-      <select name="id_empleado">{% for e in empleados %}<option value="{{ e.id_empleado }}">{{ e.nombre }}</option>{% endfor %}</select></div>
+    <div><label for="id_cliente">Cliente</label>
+      <select id="id_cliente" name="id_cliente">{% for c in clientes %}<option value="{{ c.id_cliente }}">{{ c.nombre }} ({{ c.tipo }})</option>{% endfor %}</select></div>
+    <div><label for="id_empleado">Atiende</label>
+      <select id="id_empleado" name="id_empleado">{% for e in empleados %}<option value="{{ e.id_empleado }}">{{ e.nombre }}</option>{% endfor %}</select></div>
   </div>
-  <h2>Productos</h2>
-  <div class="tabla-scroll"><table>
-    <tr><th>Producto</th><th class="num">Cantidad</th></tr>
+  <h2 style="margin-top:28px">Productos</h2>
+  <div class="tabla"><table>
+    <thead><tr><th>Producto</th><th class="num" style="width:130px">Cantidad</th></tr></thead>
+    <tbody>
     {% for i in range(6) %}
-    <tr><td><select name="producto" style="width:100%"><option value="">—</option>
-        {% for p in prods %}<option value="{{ p.id_producto }}">{{ p.producto }} · det {{ p.precio_det|clp }} / may {{ p.precio_may|clp }} · stock {{ p.cantidad }}</option>{% endfor %}
+    <tr><td><select name="producto" aria-label="Producto {{ i + 1 }}"><option value="">Elegir producto</option>
+        {% for p in prods %}<option value="{{ p.id_producto }}">{{ p.producto }}: {{ p.precio_det|clp }} detalle, {{ p.precio_may|clp }} mayor ({{ p.cantidad }} en stock)</option>{% endfor %}
         </select></td>
-        <td class="num"><input name="cantidad" type="number" min="1" style="width:90px"></td></tr>
+        <td class="num"><input name="cantidad" type="number" min="1" aria-label="Cantidad {{ i + 1 }}"></td></tr>
     {% endfor %}
+    </tbody>
   </table></div>
-  <p class="ayuda">Al guardar se ejecuta <code>sp_registrar_venta</code> en una transaccion: valida stock, aplica precio mayorista o detalle segun el tipo de cliente, descuenta stock y cierra el ticket. Si un producto no tiene stock suficiente se hace ROLLBACK de toda la venta.</p>
-  <button>Registrar venta</button>
+  <div class="acciones"><button class="boton">Registrar venta</button></div>
+  <p class="nota">Se ejecuta <code>sp_registrar_venta</code> en una sola transacción: valida el stock, descuenta las unidades y cierra el número. Si falta stock de un producto, la venta completa se deshace.</p>
 </form>
 {% endblock %}

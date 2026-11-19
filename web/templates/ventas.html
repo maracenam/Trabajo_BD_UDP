@@ -1,21 +1,28 @@
 {% extends 'base.html' %}
 {% block titulo %}Ventas{% endblock %}
 {% block contenido %}
-<h1>Ventas</h1>
+<div class="cabecera">
+  <div><h1>Ventas</h1>
+  <p class="bajada">{{ filas|length }} ventas por {{ total|clp }}{% if filas|length == 300 %} (se muestran las 300 más recientes){% endif %}.</p></div>
+  <a class="boton" href="{{ url_for('venta_nueva') }}">Nueva venta</a>
+</div>
 <form class="filtros" method="get">
-  <div><label>Desde</label><input type="date" name="desde" value="{{ desde or '' }}"></div>
-  <div><label>Hasta</label><input type="date" name="hasta" value="{{ hasta or '' }}"></div>
-  <div><button>Filtrar</button></div>
-  <div><a class="btn btn-sec" href="{{ url_for('venta_nueva') }}">+ Nueva venta</a></div>
+  <div><label for="desde">Desde</label><input id="desde" type="date" name="desde" value="{{ desde or '' }}"></div>
+  <div><label for="hasta">Hasta</label><input id="hasta" type="date" name="hasta" value="{{ hasta or '' }}"></div>
+  <div style="min-width:0"><button class="boton sec">Filtrar</button></div>
 </form>
-<p class="ayuda">{{ filas|length }} ventas (max. 300) · Total {{ total|clp }} · Fuente: vista <code>v_resumen_ventas</code>, columna desnormalizada <code>venta.total</code>.</p>
-<div class="tabla-scroll"><table>
-  <tr><th>#</th><th>Fecha</th><th>Hora</th><th>Ticket</th><th>Cliente</th><th>Tipo</th><th>Empleado</th><th class="num">Lineas</th><th class="num">Total</th></tr>
+<div class="tabla"><table>
+  <thead><tr><th>Venta</th><th>Fecha</th><th class="num">Ticket</th><th>Cliente</th><th>Atendió</th><th class="num">Productos</th><th class="num">Total</th></tr></thead>
+  <tbody>
   {% for v in filas %}
-  <tr><td><a href="{{ url_for('venta_detalle', id_venta=v.id_venta) }}">{{ v.id_venta }}</a></td>
-      <td class="f">{{ v.fecha }}</td><td>{{ v.hora }}</td><td>{{ v.numero_ticket }}</td><td>{{ v.cliente }}</td>
-      <td>{{ v.tipo_cliente }}</td><td>{{ v.empleado }}</td><td class="num">{{ v.lineas }}</td>
+  <tr><td><a href="{{ url_for('venta_detalle', id_venta=v.id_venta) }}">N° {{ v.id_venta }}</a></td>
+      <td class="f">{{ v.fecha|fecha }}<br><span class="tenue">{{ v.hora|hora }}</span></td>
+      <td class="num">{{ v.numero_ticket }}</td>
+      <td>{{ v.cliente }}<br><span class="tenue">{{ v.tipo_cliente }}</span></td>
+      <td>{{ v.empleado }}</td><td class="num">{{ v.lineas }}</td>
       <td class="num">{{ v.total|clp }}</td></tr>
-  {% endfor %}
+  {% else %}<tr><td colspan="7" class="vacio">No hay ventas en esas fechas.</td></tr>{% endfor %}
+  </tbody>
 </table></div>
+<p class="nota">El total sale de la columna desnormalizada <code>venta.total</code>, sin sumar el detalle (vista <code>v_resumen_ventas</code>).</p>
 {% endblock %}

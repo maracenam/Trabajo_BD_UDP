@@ -1,36 +1,44 @@
 {% extends 'base.html' %}
-{% block titulo %}Productos{% endblock %}
+{% block titulo %}Productos y stock{% endblock %}
 {% block contenido %}
-<h1>Productos y stock</h1>
-<form class="filtros" method="get">
-  <div><label>Buscar (nombre, marca o SKU)</label><input name="q" value="{{ q }}" placeholder="Ej: Chocolate"></div>
-  <div><label>Categoria</label>
-    <select name="categoria"><option value="">Todas</option>
+<div class="cabecera">
+  <div>
+    <h1>Productos y stock</h1>
+    <p class="bajada">Catálogo único: cada producto tiene un SKU y un solo registro de stock.</p>
+  </div>
+  <a class="boton" href="{{ url_for('producto_nuevo') }}">Agregar producto</a>
+</div>
+<form class="filtros" method="get" role="search">
+  <div class="ancho"><label for="q">Buscar</label><input id="q" name="q" value="{{ q }}" placeholder="Nombre, marca o código de barras" autofocus></div>
+  <div><label for="categoria">Categoría</label>
+    <select id="categoria" name="categoria"><option value="">Todas</option>
       {% for c in categorias %}<option value="{{ c.id_categoria }}" {{ 'selected' if cat==c.id_categoria }}>{{ c.nombre }}</option>{% endfor %}
     </select></div>
-  <div><button>Buscar</button></div>
-  <div><a class="btn btn-sec" href="{{ url_for('producto_nuevo') }}">+ Nuevo producto</a></div>
+  <div style="min-width:0"><button class="boton">Buscar</button></div>
 </form>
-<p class="ayuda">{{ filas|length }} productos. La busqueda por nombre usa el indice secundario <code>idx_producto_nombre</code>.</p>
-<div class="tabla-scroll"><table>
-  <tr><th>SKU</th><th>Producto</th><th>Categoria</th><th>Marca</th><th class="num">Detalle</th><th class="num">Mayor</th>
-      <th class="num">Stock</th><th class="num">Min.</th><th>Estado</th><th>Ingreso</th><th></th></tr>
+<div class="tabla"><table>
+  <thead><tr><th>Producto</th><th>Categoría</th><th class="num">Detalle</th><th class="num">Mayor</th>
+      <th class="num">Stock</th><th>Estado</th><th>Ingresar unidades</th><th><span class="sr">Acciones</span></th></tr></thead>
+  <tbody>
   {% for p in filas %}
   <tr>
-    <td>{{ p.sku }}</td><td>{{ p.producto }}</td><td>{{ p.categoria }}</td><td>{{ p.marca }}</td>
+    <td>{{ p.producto }}<br><span class="tenue">{{ p.marca }} · SKU {{ p.sku }}</span></td>
+    <td>{{ p.categoria }}</td>
     <td class="num">{{ p.precio_det|clp }}</td><td class="num">{{ p.precio_may|clp }}</td>
-    <td class="num">{{ p.cantidad }}</td><td class="num">{{ p.stock_min }}</td>
-    <td><span class="badge b-{{ p.estado_stock }}">{{ p.estado_stock }}</span></td>
-    <td><form class="inline" method="post" action="{{ url_for('stock_ingreso', id_producto=p.id_producto) }}">
-        <input name="unidades" type="number" min="1" style="width:70px" placeholder="+unid">
-        <button class="btn-chico">OK</button></form></td>
-    <td style="white-space:nowrap">
-      <a class="btn btn-sec btn-chico" href="{{ url_for('producto_editar', id_producto=p.id_producto) }}">Editar</a>
+    <td class="num">{{ p.cantidad }}<br><span class="tenue">mín. {{ p.stock_min }}</span></td>
+    <td><span class="estado e-{{ p.estado_stock|slug }}">{{ p.estado_stock|estado }}</span></td>
+    <td><form class="ingreso" method="post" action="{{ url_for('stock_ingreso', id_producto=p.id_producto) }}">
+        <input name="unidades" type="number" min="1" placeholder="0" aria-label="Unidades a ingresar de {{ p.producto }}">
+        <button class="boton sec chico">Ingresar</button></form></td>
+    <td><div class="fila-acciones">
+      <a class="boton sec chico" href="{{ url_for('producto_editar', id_producto=p.id_producto) }}">Editar</a>
       <form class="inline" method="post" action="{{ url_for('producto_eliminar', id_producto=p.id_producto) }}"
-            onsubmit="return confirm('Eliminar {{ p.producto }}?')">
-        <button class="btn-peligro btn-chico">Eliminar</button></form>
-    </td>
+            onsubmit="return confirm('¿Eliminar {{ p.producto }}?')">
+        <button class="boton peligro chico">Eliminar</button></form>
+    </div></td>
   </tr>
-  {% endfor %}
+  {% else %}<tr><td colspan="8" class="vacio">Ningún producto coincide con “{{ q }}”. Pruebe con otra palabra o agréguelo al catálogo.</td></tr>{% endfor %}
+  </tbody>
 </table></div>
+<p class="nota">{{ filas|length }} productos. La búsqueda por nombre usa el índice secundario <code>idx_producto_nombre</code>. Un producto con ventas no se puede eliminar: lo protege la llave foránea.</p>
 {% endblock %}

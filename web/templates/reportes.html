@@ -1,21 +1,29 @@
 {% extends 'base.html' %}
 {% block titulo %}Reportes{% endblock %}
 {% block contenido %}
-<h1>Reportes</h1>
-<div class="tabs">
+{% set COLS = {'fecha':'Fecha','n_ventas':'Ventas','monto_total':'Monto','ticket_promedio':'Venta promedio',
+               'tipo_cliente':'Tipo de cliente','sku':'SKU','producto':'Producto','unidades':'Unidades',
+               'ingresos':'Ingresos','categoria':'Categoría','pct':'% del total','nombre':'Nombre','cargo':'Cargo',
+               'monto_vendido':'Monto vendido','atendidos':'Atendidos','anulados':'Anulados','pendientes':'En espera',
+               'total_tickets':'Números entregados'} %}
+<div class="cabecera"><div><h1>Reportes</h1>
+  <p class="bajada">Consultas sobre las ventas, el stock y la atención.</p></div></div>
+<nav class="pestanas" aria-label="Reportes">
   {% for k, r in reportes.items() %}
-    <a class="btn {{ '' if k==clave else 'btn-sec' }}" href="{{ url_for('reportes', r=k) }}">{{ r[0] }}</a>
+    <a href="{{ url_for('reportes', r=k) }}" {% if k==clave %}aria-current="page"{% endif %}>{{ r[0] }}</a>
   {% endfor %}
-</div>
+</nav>
 <h2>{{ titulo }}</h2>
-<div class="tabla-scroll"><table>
+<div class="tabla"><table>
   {% if filas %}
-  <tr>{% for col in filas[0].keys() %}<th>{{ col }}</th>{% endfor %}</tr>
+  <thead><tr>{% for col in filas[0].keys() %}<th class="{{ 'num' if filas[0][col] is number }}">{{ COLS.get(col, col) }}</th>{% endfor %}</tr></thead>
+  <tbody>
   {% for f in filas %}
   <tr>{% for col, val in f.items() %}
-      <td class="{{ 'num' if val is number }}">{{ val|clp if col in moneda else val }}</td>{% endfor %}</tr>
+      <td class="{{ 'num' if val is number }}">{% if col in moneda %}{{ val|clp }}{% elif col == 'fecha' %}{{ val|fecha }}{% else %}{{ val }}{% endif %}</td>{% endfor %}</tr>
   {% endfor %}
-  {% else %}<tr><td>Sin datos.</td></tr>{% endif %}
+  </tbody>
+  {% else %}<tr><td class="vacio">Este reporte todavía no tiene datos.</td></tr>{% endif %}
 </table></div>
-<details style="margin-top:14px"><summary>Ver SQL</summary><pre>{{ sql }}</pre></details>
+<details style="margin-top:18px"><summary>Ver la consulta SQL</summary><pre>{{ sql }}</pre></details>
 {% endblock %}

@@ -3,79 +3,199 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>La Mundial · {% block titulo %}Sistema{% endblock %}</title>
+<title>{% block titulo %}Sistema{% endblock %} – La Mundial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
 <style>
-  :root { --azul:#3f5f7f; --azul2:#2d4760; --rosa:#f1e1e1; --fondo:#fbf7f4; --borde:#e2d6d3;
-          --ok:#2f7d4f; --warn:#b7791f; --err:#b33a3a; --texto:#2b2b2b; --gris:#6b6b6b; }
-  * { box-sizing:border-box; }
-  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-         background:var(--fondo); color:var(--texto); font-size:15px; }
-  header { background:var(--azul); color:#fff; padding:0 24px; display:flex; align-items:center;
-           gap:28px; flex-wrap:wrap; }
-  header .logo { font-weight:700; font-size:18px; padding:14px 0; letter-spacing:.3px; }
-  nav a { color:#dfe8f1; text-decoration:none; padding:16px 10px; display:inline-block; }
-  nav a.activo, nav a:hover { color:#fff; box-shadow: inset 0 -3px 0 #f3c6c6; }
-  main { max-width:1200px; margin:0 auto; padding:24px; }
-  h1 { color:var(--azul); margin:4px 0 18px; font-size:26px; }
-  h2 { color:var(--azul2); font-size:18px; margin:24px 0 10px; }
-  .tarjetas { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; }
-  .tarjeta { background:#fff; border:1px solid var(--borde); border-radius:10px; padding:16px; }
-  .tarjeta .n { font-size:26px; font-weight:700; color:var(--azul); }
-  .tarjeta .l { color:var(--gris); font-size:13px; }
-  table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--borde);
-          border-radius:8px; overflow:hidden; }
-  th, td { padding:8px 10px; border-bottom:1px solid #eee5e2; text-align:left; vertical-align:middle; }
-  th { background:var(--rosa); color:#5a4a4a; font-weight:600; font-size:13px; }
-  td.f { white-space:nowrap; }
-  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
-  tr:hover td { background:#fdfaf8; }
-  .tabla-scroll { overflow-x:auto; }
-  .badge { padding:2px 8px; border-radius:999px; font-size:12px; font-weight:600; }
-  .b-OK, .b-atendido { background:#e3f2e8; color:var(--ok); }
-  .b-REPONER, .b-emitido { background:#fdf0dc; color:var(--warn); }
-  .b-SIN.STOCK, .b-anulado { background:#f8e0e0; color:var(--err); }
-  form.inline { display:inline; }
-  .filtros { display:flex; gap:10px; flex-wrap:wrap; align-items:end; margin-bottom:14px; }
-  label { font-size:13px; color:var(--gris); display:block; margin-bottom:3px; }
-  input, select { padding:7px 9px; border:1px solid #cfc3bf; border-radius:6px; font-size:14px;
-                  background:#fff; max-width:100%; }
-  button, .btn { background:var(--azul); color:#fff; border:0; border-radius:6px; padding:8px 14px;
-                 cursor:pointer; font-size:14px; text-decoration:none; display:inline-block; }
-  button:hover, .btn:hover { background:var(--azul2); }
-  .btn-sec { background:#fff; color:var(--azul); border:1px solid var(--azul); }
-  .btn-sec:hover { background:#eef3f8; }
-  .btn-peligro { background:var(--err); }
-  .btn-chico { padding:4px 9px; font-size:12px; }
-  .flash { padding:10px 14px; border-radius:8px; margin-bottom:14px; }
-  .flash.ok { background:#e3f2e8; color:var(--ok); border:1px solid #bfe0cb; }
-  .flash.error { background:#f8e0e0; color:var(--err); border:1px solid #efc2c2; }
-  .grid2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:18px; }
-  .caja { background:#fff; border:1px solid var(--borde); border-radius:10px; padding:16px; }
-  .caja h2 { margin-top:0; }
-  .campos { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
-  .ayuda { color:var(--gris); font-size:13px; }
-  pre { background:#2b2b2b; color:#e8e8e8; padding:12px; border-radius:8px; overflow-x:auto; font-size:12px; }
-  .tabs a { margin-right:6px; margin-bottom:6px; }
+  :root {
+    --papel: #F6F6F3;
+    --blanco: #FFFFFF;
+    --tinta: #1E2230;
+    --tinta-2: #565B6B;
+    --linea: #E2E1E8;
+    --uva: #5B2A86;
+    --uva-oscura: #42195F;
+    --uva-tenue: #F0EAF6;
+    --ticket: #FFD23F;
+    --ok: #1F7A4D;   --ok-fondo: #E4F2EA;
+    --alerta: #9A5B00; --alerta-fondo: #FCEFD7;
+    --error: #B42B2B;  --error-fondo: #FBE5E3;
+    --titulo: "Bricolage Grotesque", "Arial Narrow", sans-serif;
+    --texto: "Figtree", system-ui, sans-serif;
+    --radio: 10px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--papel); color: var(--tinta); font: 16px/1.5 var(--texto);
+         font-variant-numeric: tabular-nums; }
+  a { color: var(--uva); text-underline-offset: 3px; }
+  a:hover { color: var(--uva-oscura); }
+  :focus-visible { outline: 3px solid var(--uva); outline-offset: 2px; border-radius: 4px; }
+  code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: .86em;
+         background: var(--uva-tenue); color: var(--uva-oscura); padding: 1px 5px; border-radius: 4px; }
+
+  /* ---------- Estructura: menu lateral tipo punto de venta ---------- */
+  .app { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
+  .lateral { background: var(--blanco); border-right: 1px solid var(--linea); padding: 28px 18px;
+             position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 28px; }
+  .marca { text-decoration: none; color: var(--tinta); padding: 0 10px; }
+  .marca b { display: block; font: 800 26px/1 var(--titulo); letter-spacing: -.02em; color: var(--uva); }
+  .marca span { display: block; margin-top: 6px; font-size: 13px; color: var(--tinta-2); }
+  .menu { display: flex; flex-direction: column; gap: 2px; }
+  .menu a { color: var(--tinta); text-decoration: none; padding: 10px 12px; border-radius: 8px; font-weight: 700;
+            font-size: 15px; }
+  .menu a:hover { background: var(--papel); color: var(--tinta); }
+  .menu a[aria-current="page"] { background: var(--uva-tenue); color: var(--uva-oscura); }
+  .motor { margin-top: auto; padding: 0 10px; font-size: 12.5px; color: var(--tinta-2); }
+
+  main { padding: 40px 48px 64px; max-width: 1240px; width: 100%; min-width: 0; }
+  .cabecera { display: flex; align-items: end; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+              margin-bottom: 28px; }
+  h1 { font: 800 clamp(30px, 3.4vw, 40px)/1.05 var(--titulo); letter-spacing: -.025em; margin: 0; }
+  h2 { font: 700 21px/1.2 var(--titulo); letter-spacing: -.01em; margin: 0 0 12px; }
+  .bajada { color: var(--tinta-2); margin: 8px 0 0; max-width: 68ch; }
+  .nota { color: var(--tinta-2); font-size: 14px; max-width: 75ch; }
+  section + section { margin-top: 40px; }
+
+  /* ---------- Ticket de turno: el elemento protagonista ---------- */
+  .ticket { --muesca: 14px; position: relative; display: grid; grid-template-columns: auto 1fr; align-items: stretch;
+            background: var(--ticket); color: var(--tinta); border-radius: 6px; max-width: 640px;
+            -webkit-mask: radial-gradient(circle var(--muesca) at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat,
+                          radial-gradient(circle var(--muesca) at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat;
+                    mask: radial-gradient(circle var(--muesca) at 0 50%, #0000 98%, #000) left / 51% 100% no-repeat,
+                          radial-gradient(circle var(--muesca) at 100% 50%, #0000 98%, #000) right / 51% 100% no-repeat; }
+  .ticket-num { padding: 22px 30px 20px 34px; border-right: 2px dashed rgba(30,34,48,.35); }
+  .ticket-num small { display: block; font-weight: 700; font-size: 14px; }
+  .ticket-num strong { display: block; font: 800 96px/.9 var(--titulo); letter-spacing: -.04em; margin-top: 6px; }
+  .ticket-accion { padding: 22px 34px 20px 28px; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+  .ticket-accion p { margin: 0; font-size: 15px; }
+  .ticket .boton { background: var(--tinta); align-self: start; }
+  .ticket .boton:hover { background: #000; }
+  @media (prefers-reduced-motion: no-preference) {
+    .ticket.nuevo { animation: imprimir .55s cubic-bezier(.2,.9,.3,1.2) both; }
+    @keyframes imprimir { from { transform: translateY(-14px) rotate(-1.5deg); opacity: 0; } }
+  }
+
+  /* ---------- Franja de indicadores ---------- */
+  .indicadores { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px;
+                 background: var(--linea); border: 1px solid var(--linea); border-radius: var(--radio);
+                 overflow: hidden; margin: 28px 0 0; }
+  .indicador { padding: 16px 20px; background: var(--blanco); }
+  .indicador dd { margin: 0; font: 700 26px/1.1 var(--titulo); letter-spacing: -.02em; }
+  .indicador dt { font-size: 13.5px; color: var(--tinta-2); margin-top: 4px; }
+  .indicador.atencion dd { color: var(--alerta); }
+
+  .columnas { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 32px; margin-top: 40px; }
+  .columnas > section { margin-top: 0; }
+
+  /* ---------- Tablas ---------- */
+  .tabla { background: var(--blanco); border: 1px solid var(--linea); border-radius: var(--radio); overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 10px 14px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--linea); }
+  tr:last-child td { border-bottom: 0; }
+  th { font-weight: 700; font-size: 13.5px; color: var(--tinta-2); background: var(--blanco); white-space: nowrap; }
+  tbody tr:hover td { background: #FAFAF8; }
+  .num { text-align: right; white-space: nowrap; }
+  .f { white-space: nowrap; }
+  .tenue { color: var(--tinta-2); }
+  tfoot td { font-weight: 700; border-top: 2px solid var(--tinta); border-bottom: 0; }
+  .vacio { padding: 28px 16px; color: var(--tinta-2); }
+
+  .estado { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .e-ok, .e-atendido { background: var(--ok-fondo); color: var(--ok); }
+  .e-reponer, .e-emitido { background: var(--alerta-fondo); color: var(--alerta); }
+  .e-sin-stock, .e-anulado { background: var(--error-fondo); color: var(--error); }
+
+  /* ---------- Formularios y botones ---------- */
+  label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+  .ayuda-campo { font-weight: 400; color: var(--tinta-2); }
+  input, select { font: inherit; font-size: 15px; color: var(--tinta); background: var(--blanco); width: 100%;
+                  padding: 9px 11px; border: 1px solid #CFCDD8; border-radius: 8px; min-height: 42px; }
+  input:focus, select:focus { border-color: var(--uva); }
+  .filtros { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-bottom: 18px; }
+  .filtros > div { min-width: 180px; }
+  .filtros .ancho { flex: 1 1 260px; }
+  .campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+  .campos .doble { grid-column: span 2; }
+  .boton { font: 700 15px/1 var(--texto); background: var(--uva); color: #fff; border: 0; border-radius: 8px;
+           padding: 0 18px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center;
+           justify-content: center; min-height: 42px; white-space: nowrap; }
+  .boton:hover { background: var(--uva-oscura); color: #fff; }
+  .boton.sec { background: var(--blanco); color: var(--uva); box-shadow: inset 0 0 0 1.5px var(--uva); }
+  .boton.sec:hover { background: var(--uva-tenue); color: var(--uva-oscura); }
+  .boton.peligro { background: var(--blanco); color: var(--error); box-shadow: inset 0 0 0 1.5px #E7B9B5; }
+  .boton.peligro:hover { background: var(--error-fondo); }
+  .boton.chico { padding: 0 11px; font-size: 13.5px; min-height: 34px; }
+  .acciones { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 22px; }
+  .panel { background: var(--blanco); border: 1px solid var(--linea); border-radius: var(--radio); padding: 24px; }
+  .ingreso { display: flex; gap: 6px; }
+  .ingreso input { width: 82px; min-height: 34px; padding: 5px 8px; }
+  .fila-acciones { display: flex; gap: 6px; justify-content: flex-end; }
+  form.inline { display: inline; margin: 0; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .aviso { padding: 12px 16px; border-radius: 8px; margin-bottom: 22px; font-weight: 700; }
+  .aviso.ok { background: var(--ok-fondo); color: var(--ok); }
+  .aviso.error { background: var(--error-fondo); color: var(--error); }
+
+  /* ---------- Procesos ---------- */
+  .procesos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(330px, 100%), 1fr)); gap: 1px;
+              background: var(--linea); border: 1px solid var(--linea); border-radius: var(--radio); overflow: hidden; }
+  .proceso { padding: 24px; background: var(--blanco); margin: 0; }
+  .proceso p { margin: 4px 0 16px; }
+  @media (min-width: 1000px) { .proceso:last-child { grid-column: span 2; } }
+  .proceso .campos { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+
+  .pestanas { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+  .pestanas a { text-decoration: none; padding: 8px 14px; border-radius: 999px; color: var(--tinta); font-weight: 700;
+                font-size: 14.5px; background: var(--blanco); border: 1px solid var(--linea); }
+  .pestanas a[aria-current="page"] { background: var(--tinta); color: #fff; border-color: var(--tinta); }
+  details summary { cursor: pointer; font-weight: 700; color: var(--uva); }
+  pre { background: var(--tinta); color: #ECEAF2; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 13px; }
+
+  .datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; margin: 0; }
+  .datos dt { font-size: 13.5px; color: var(--tinta-2); }
+  .datos dd { margin: 2px 0 0; font-weight: 700; }
+
+  @media (max-width: 900px) {
+    .app { grid-template-columns: minmax(0, 1fr); }
+    .lateral { position: static; height: auto; padding: 16px; gap: 12px; border-right: 0; border-bottom: 1px solid var(--linea); }
+    .marca b { font-size: 22px; }
+    .menu { flex-direction: row; overflow-x: auto; gap: 4px; }
+    .menu a { white-space: nowrap; padding: 8px 10px; }
+    .motor { display: none; }
+    main { padding: 24px 16px 48px; }
+    .columnas { grid-template-columns: minmax(0, 1fr); }
+    .campos .doble { grid-column: auto; }
+    .ticket-num strong { font-size: 72px; }
+    .ticket { grid-template-columns: 1fr; }
+    .ticket-num { border-right: 0; border-bottom: 2px dashed rgba(30,34,48,.35); padding: 18px 28px; }
+    .ticket-accion { padding: 18px 28px; }
+  }
 </style>
 </head>
 <body>
-<header>
-  <div class="logo">Distribuidora La Mundial <span style="font-weight:400;font-size:12px;opacity:.75">{{ motor }}</span></div>
-  <nav>
-    {% set ep = request.endpoint or '' %}
-    <a href="{{ url_for('inicio') }}" class="{{ 'activo' if ep=='inicio' }}">Inicio</a>
-    <a href="{{ url_for('productos') }}" class="{{ 'activo' if ep.startswith('producto') }}">Productos y stock</a>
-    <a href="{{ url_for('venta_nueva') }}" class="{{ 'activo' if ep=='venta_nueva' }}">Nueva venta</a>
-    <a href="{{ url_for('ventas') }}" class="{{ 'activo' if ep in ('ventas','venta_detalle') }}">Ventas</a>
-    <a href="{{ url_for('reportes') }}" class="{{ 'activo' if ep=='reportes' }}">Reportes</a>
-    <a href="{{ url_for('procesos') }}" class="{{ 'activo' if ep=='procesos' }}">Procesos masivos</a>
-  </nav>
-</header>
-<main>
-  {% for cat, msg in get_flashed_messages(with_categories=true) %}
-    <div class="flash {{ cat }}">{{ msg }}</div>
-  {% endfor %}
-  {% block contenido %}{% endblock %}
-</main>
+{% set ep = request.endpoint or '' %}
+<div class="app">
+  <aside class="lateral">
+    <a class="marca" href="{{ url_for('inicio') }}"><b>La Mundial</b><span>Distribuidora en Santiago Centro</span></a>
+    <nav class="menu" aria-label="Secciones">
+      <a href="{{ url_for('inicio') }}" {% if ep=='inicio' %}aria-current="page"{% endif %}>Mesón</a>
+      <a href="{{ url_for('venta_nueva') }}" {% if ep=='venta_nueva' %}aria-current="page"{% endif %}>Nueva venta</a>
+      <a href="{{ url_for('productos') }}" {% if ep.startswith('producto') %}aria-current="page"{% endif %}>Productos y stock</a>
+      <a href="{{ url_for('ventas') }}" {% if ep in ('ventas','venta_detalle') %}aria-current="page"{% endif %}>Ventas</a>
+      <a href="{{ url_for('reportes') }}" {% if ep=='reportes' %}aria-current="page"{% endif %}>Reportes</a>
+      <a href="{{ url_for('procesos') }}" {% if ep=='procesos' %}aria-current="page"{% endif %}>Procesos masivos</a>
+    </nav>
+    {% if motor %}<p class="motor">Base de datos: {{ motor }}</p>{% endif %}
+  </aside>
+  <main>
+    {% for cat, msg in get_flashed_messages(with_categories=true) %}
+      <div class="aviso {{ cat }}" role="{{ 'alert' if cat=='error' else 'status' }}">{{ msg }}</div>
+    {% endfor %}
+    {% block contenido %}{% endblock %}
+  </main>
+</div>
 </body>
 </html>
