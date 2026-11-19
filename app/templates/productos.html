@@ -14,23 +14,23 @@
     <select id="categoria" name="categoria"><option value="">Todas</option>
       {% for c in categorias %}<option value="{{ c.id_categoria }}" {{ 'selected' if cat==c.id_categoria }}>{{ c.nombre }}</option>{% endfor %}
     </select></div>
-  <div style="min-width:0"><button class="boton">Buscar</button></div>
+  <div class="sin-min"><button class="boton">Buscar</button></div>
 </form>
-<div class="tabla"><table>
-  <thead><tr><th>Producto</th><th>Categoría</th><th class="num">Detalle</th><th class="num">Mayor</th>
+<div class="tabla tabla-productos"><table>
+  <thead><tr><th>Producto</th><th>Categoría</th><th class="num">Al detalle</th><th class="num">Por mayor</th>
       <th class="num">Stock</th><th>Estado</th><th>Ingresar unidades</th><th><span class="sr">Acciones</span></th></tr></thead>
   <tbody>
   {% for p in filas %}
   <tr>
-    <td>{{ p.producto }}<br><span class="tenue">{{ p.marca }} · SKU {{ p.sku }}</span></td>
-    <td>{{ p.categoria }}</td>
-    <td class="num">{{ p.precio_det|clp }}</td><td class="num">{{ p.precio_may|clp }}</td>
-    <td class="num">{{ p.cantidad }}<br><span class="tenue">mín. {{ p.stock_min }}</span></td>
-    <td><span class="estado e-{{ p.estado_stock|slug }}">{{ p.estado_stock|estado }}</span></td>
-    <td><form class="ingreso" method="post" action="{{ url_for('stock_ingreso', id_producto=p.id_producto) }}">
+    <td class="c-prod"><span class="fuerte">{{ p.producto }}</span><br><span class="tenue">{{ p.marca }} · SKU {{ p.sku }}</span></td>
+    <td class="c-cat">{{ p.categoria }}</td>
+    <td class="num c-det"><span class="precio">{{ p.precio_det|clp }}</span></td><td class="num fuerte c-may">{{ p.precio_may|clp }}</td>
+    <td class="num c-stock"><span class="fuerte">{{ p.cantidad }}</span><span class="m-solo"> en stock</span><br><span class="tenue">mín. {{ p.stock_min }}</span></td>
+    <td class="c-estado"><span class="estado e-{{ p.estado_stock|slug }}">{{ p.estado_stock|estado }}</span></td>
+    <td class="c-ing"><form class="ingreso" method="post" action="{{ url_for('stock_ingreso', id_producto=p.id_producto) }}">
         <input name="unidades" type="number" min="1" placeholder="0" aria-label="Unidades a ingresar de {{ p.producto }}">
         <button class="boton sec chico">Ingresar</button></form></td>
-    <td><div class="fila-acciones">
+    <td class="c-acc"><div class="fila-acciones">
       <a class="boton sec chico" href="{{ url_for('producto_editar', id_producto=p.id_producto) }}">Editar</a>
       <form class="inline" method="post" action="{{ url_for('producto_eliminar', id_producto=p.id_producto) }}"
             onsubmit="return confirm('¿Eliminar {{ p.producto }}?')">

@@ -3,60 +3,57 @@
 {% block contenido %}
 <div class="cabecera">
   <div>
-    <h1>Mesón de atención</h1>
+    <h1>Mesón</h1>
     <p class="bajada">Entregue el número al cliente y regístrelo en Nueva venta cuando llegue su turno.</p>
   </div>
 </div>
 
-<div class="ticket{{ ' nuevo' if nuevo_ticket }}">
-  <div class="ticket-num">
-    <small>Próximo número</small>
-    <strong>{{ siguiente }}</strong>
-  </div>
-  <div class="ticket-accion">
-    <p>{% if kpi.tickets_pend %}{{ kpi.tickets_pend }} {{ 'cliente espera' if kpi.tickets_pend == 1 else 'clientes esperan' }} atención.{% else %}No hay clientes esperando.{% endif %}</p>
-    <form method="post" action="{{ url_for('emitir_ticket') }}">
-      <input type="hidden" name="desde" value="meson">
-      <button class="boton" data-cargando="Entregando…">Entregar número {{ siguiente }}</button>
-    </form>
-  </div>
+<div class="meson">
+  <section class="cartel turno{{ ' nuevo' if nuevo_ticket }}" aria-labelledby="t-turno">
+    <h2 id="t-turno">Próximo número</h2>
+    <span class="rotulo numero" aria-live="polite">{{ siguiente }}</span>
+    <div class="lado">
+      <p>{% if kpi.tickets_pend %}{{ kpi.tickets_pend }} {{ 'cliente espera' if kpi.tickets_pend == 1 else 'clientes esperan' }} su turno.{% else %}Nadie espera en este momento.{% endif %}</p>
+      <form method="post" action="{{ url_for('emitir_ticket') }}">
+        <input type="hidden" name="desde" value="meson">
+        <button class="boton" data-cargando="Entregando…">Entregar número {{ siguiente }}</button>
+      </form>
+      {% if kpi.tickets_pend %}<a href="{{ url_for('venta_nueva') }}">Atender al siguiente</a>{% endif %}
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="t-reponer">
+    <h2 id="t-reponer">Por reponer</h2>
+    {% if reponer %}
+    <ul class="reponer-lista">
+      {% for p in reponer %}
+      <li><b>{{ p.producto }}</b><span class="quedan">quedan {{ p.cantidad }} <span class="tenue">de {{ p.stock_min }}</span></span></li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="tenue">Todo el stock está sobre su mínimo.</p>{% endif %}
+    <p class="nota">Desde la vista <code>v_stock_productos</code>. <a href="{{ url_for('procesos') }}">Reponer stock</a></p>
+  </section>
 </div>
 
-<dl class="indicadores">
-  <div class="indicador"><dd>{{ kpi.monto_hoy|clp }}</dd><dt>Vendido hoy</dt></div>
-  <div class="indicador"><dd>{{ kpi.ventas_hoy }}</dd><dt>Ventas de hoy</dt></div>
-  <div class="indicador{{ ' atencion' if kpi.a_reponer }}"><dd>{{ kpi.a_reponer }}</dd><dt>Productos por reponer</dt></div>
-  <div class="indicador"><dd>{{ kpi.productos }}</dd><dt>Productos en catálogo</dt></div>
-  <div class="indicador"><dd>{{ kpi.ventas_total }}</dd><dt>Ventas registradas</dt></div>
+<dl class="cifras">
+  <div class="cifra"><dt>Vendido hoy</dt><dd>{{ kpi.monto_hoy|clp }}</dd></div>
+  <div class="cifra"><dt>Ventas de hoy</dt><dd>{{ kpi.ventas_hoy }}</dd></div>
+  <div class="cifra{{ ' atencion' if kpi.a_reponer }}"><dt>Productos por reponer</dt><dd>{{ kpi.a_reponer }}</dd></div>
+  <div class="cifra"><dt>Productos en catálogo</dt><dd>{{ kpi.productos }}</dd></div>
+  <div class="cifra"><dt>Ventas registradas</dt><dd>{{ kpi.ventas_total }}</dd></div>
 </dl>
 
-<div class="columnas">
-  <section>
-    <h2>Últimas ventas</h2>
-    <div class="tabla"><table>
-      <thead><tr><th>Venta</th><th>Fecha</th><th>Cliente</th><th class="num">Total</th></tr></thead>
-      <tbody>
-      {% for v in ultimas %}
-      <tr><td><a href="{{ url_for('venta_detalle', id_venta=v.id_venta) }}">N° {{ v.id_venta }}</a></td>
-          <td class="f">{{ v.fecha|fecha }}</td>
-          <td>{{ v.cliente }}<br><span class="tenue">{{ v.tipo_cliente }}</span></td>
-          <td class="num">{{ v.total|clp }}</td></tr>
-      {% else %}<tr><td colspan="4" class="vacio">Aún no hay ventas. Registre la primera en Nueva venta.</td></tr>{% endfor %}
-      </tbody>
-    </table></div>
-  </section>
-  <section>
-    <h2>Por reponer</h2>
-    <div class="tabla"><table>
-      <thead><tr><th>Producto</th><th class="num">Quedan</th><th class="num">Mínimo</th></tr></thead>
-      <tbody>
-      {% for p in reponer %}
-      <tr><td>{{ p.producto }}<br><span class="estado e-{{ p.estado_stock|slug }}">{{ p.estado_stock|estado }}</span></td>
-          <td class="num">{{ p.cantidad }}</td><td class="num">{{ p.stock_min }}</td></tr>
-      {% else %}<tr><td colspan="3" class="vacio">Todo el stock está sobre su mínimo.</td></tr>{% endfor %}
-      </tbody>
-    </table></div>
-    <p class="nota">Datos de la vista <code>v_stock_productos</code>.</p>
-  </section>
-</div>
+<section style="margin-top:36px" aria-labelledby="t-ultimas">
+  <div class="cabecera" style="margin-bottom:12px"><h2 id="t-ultimas" style="margin:0">Últimas ventas</h2><a href="{{ url_for('ventas') }}">Ver todas las ventas</a></div>
+  <div class="tabla"><table>
+    <thead><tr><th>Venta</th><th class="m-ocultar">Fecha</th><th>Cliente</th><th class="m-ocultar">Tipo</th><th class="num">Total</th></tr></thead>
+    <tbody>
+    {% for v in ultimas %}
+    <tr><td class="f"><a href="{{ url_for('venta_detalle', id_venta=v.id_venta) }}">N° {{ v.id_venta }}</a></td>
+        <td class="f m-ocultar">{{ v.fecha|fecha }}</td><td>{{ v.cliente }}</td><td class="m-ocultar">{{ v.tipo_cliente }}</td>
+        <td class="num fuerte">{{ v.total|clp }}</td></tr>
+    {% else %}<tr><td colspan="5" class="vacio">Aún no hay ventas. Registre la primera en Nueva venta.</td></tr>{% endfor %}
+    </tbody>
+  </table></div>
+</section>
 {% endblock %}

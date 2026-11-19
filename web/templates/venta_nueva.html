@@ -6,31 +6,76 @@
   <p class="bajada">El precio se aplica solo: mayoristas y distribuidores pagan precio por mayor.</p></div>
   <form method="post" action="{{ url_for('emitir_ticket') }}"><button class="boton sec" data-cargando="Entregando…">Entregar número nuevo</button></form>
 </div>
-<form method="post" class="panel">
-  <div class="campos">
-    <div><label for="id_ticket">Número en espera</label>
-      <select id="id_ticket" name="id_ticket" required>
-        {% for t in tickets %}<option value="{{ t.id_ticket }}" {{ 'selected' if ticket_sel==t.id_ticket }}>N° {{ t.numero }}, {{ t.fecha|fecha }} {{ t.hora|hora }}</option>
-        {% else %}<option value="">Nadie espera: entregue un número primero</option>{% endfor %}
-      </select></div>
-    <div><label for="id_cliente">Cliente</label>
-      <select id="id_cliente" name="id_cliente">{% for c in clientes %}<option value="{{ c.id_cliente }}">{{ c.nombre }} ({{ c.tipo }})</option>{% endfor %}</select></div>
-    <div><label for="id_empleado">Atiende</label>
-      <select id="id_empleado" name="id_empleado">{% for e in empleados %}<option value="{{ e.id_empleado }}">{{ e.nombre }}</option>{% endfor %}</select></div>
+<form method="post" id="form-venta" class="venta">
+  <div>
+    <div class="panel">
+      <div class="campos">
+        <div><label for="id_ticket">Número en espera</label>
+          <select id="id_ticket" name="id_ticket" required>
+            {% for t in tickets %}<option value="{{ t.id_ticket }}" {{ 'selected' if ticket_sel==t.id_ticket }}>N° {{ t.numero }}, {{ t.fecha|fecha }} {{ t.hora|hora }}</option>
+            {% else %}<option value="">Nadie espera: entregue un número primero</option>{% endfor %}
+          </select></div>
+        <div><label for="id_cliente">Cliente</label>
+          <select id="id_cliente" name="id_cliente" aria-describedby="tipo-cliente">{% for c in clientes %}<option value="{{ c.id_cliente }}" data-mayor="{{ 1 if c.mayor else 0 }}" data-tipo="{{ c.tipo }}">{{ c.nombre }} ({{ c.tipo }})</option>{% endfor %}</select>
+          <p class="tipo-cliente" id="tipo-cliente" aria-live="polite"></p></div>
+        <div><label for="id_empleado">Atiende</label>
+          <select id="id_empleado" name="id_empleado">{% for e in empleados %}<option value="{{ e.id_empleado }}">{{ e.nombre }}</option>{% endfor %}</select></div>
+      </div>
+    </div>
+    <h2 style="margin:28px 0 12px">Productos</h2>
+    <div class="tabla tabla-items"><table>
+      <thead><tr><th>Producto</th><th class="num col-cant">Cantidad</th><th class="num col-sub">Subtotal</th></tr></thead>
+      <tbody>
+      {% for i in range(6) %}
+      <tr><td><select name="producto" aria-label="Producto {{ i + 1 }}"><option value="">Elegir producto</option>
+          {% for p in prods %}<option value="{{ p.id_producto }}" data-det="{{ p.precio_det }}" data-may="{{ p.precio_may }}" data-stock="{{ p.cantidad }}">{{ p.producto }}: {{ p.precio_det|clp }} detalle, {{ p.precio_may|clp }} mayor ({{ p.cantidad }} en stock)</option>{% endfor %}
+          </select></td>
+          <td class="num"><input name="cantidad" type="number" min="1" inputmode="numeric" aria-label="Cantidad {{ i + 1 }}"></td>
+          <td class="num col-sub fuerte" data-sub>–</td></tr>
+      {% endfor %}
+      </tbody>
+    </table></div>
+    <p class="nota">Se ejecuta <code>sp_registrar_venta</code> en una sola transacción: valida el stock, descuenta las unidades y cierra el número. Si falta stock de un producto, la venta completa se deshace.</p>
   </div>
-  <h2 style="margin-top:28px">Productos</h2>
-  <div class="tabla tabla-items"><table>
-    <thead><tr><th>Producto</th><th class="num col-cant">Cantidad</th></tr></thead>
-    <tbody>
-    {% for i in range(6) %}
-    <tr><td><select name="producto" aria-label="Producto {{ i + 1 }}"><option value="">Elegir producto</option>
-        {% for p in prods %}<option value="{{ p.id_producto }}">{{ p.producto }}: {{ p.precio_det|clp }} detalle, {{ p.precio_may|clp }} mayor ({{ p.cantidad }} en stock)</option>{% endfor %}
-        </select></td>
-        <td class="num"><input name="cantidad" type="number" min="1" aria-label="Cantidad {{ i + 1 }}"></td></tr>
-    {% endfor %}
-    </tbody>
-  </table></div>
-  <div class="acciones"><button class="boton" data-cargando="Registrando venta…">Registrar venta</button></div>
-  <p class="nota">Se ejecuta <code>sp_registrar_venta</code> en una sola transacción: valida el stock, descuenta las unidades y cierra el número. Si falta stock de un producto, la venta completa se deshace.</p>
+  <aside class="cartel total-cartel" aria-live="polite">
+    <h2>Total a cobrar</h2>
+    <span class="rotulo monto" id="total">$0</span>
+    <p id="regla">Precio al detalle</p>
+    <p id="aviso-stock" class="aviso-stock" hidden></p>
+    <div class="acciones"><button class="boton" data-cargando="Registrando venta…">Registrar venta</button></div>
+  </aside>
 </form>
+{% endblock %}
+{% block scripts %}
+<script>
+  // Total estimado en vivo: mismo criterio que fn_precio_cliente en la base de datos.
+  (function () {
+    var form = document.getElementById('form-venta');
+    var cliente = document.getElementById('id_cliente');
+    var fmt = function (n) { return '$' + Math.round(n).toLocaleString('es-CL'); };
+    function calcular() {
+      var mayor = cliente.selectedOptions[0] && cliente.selectedOptions[0].dataset.mayor === '1';
+      var total = 0, faltan = [];
+      form.querySelectorAll('.tabla-items tbody tr').forEach(function (tr) {
+        var op = tr.querySelector('select').selectedOptions[0];
+        var cant = parseInt(tr.querySelector('input').value, 10) || 0;
+        var celda = tr.querySelector('[data-sub]');
+        if (!op || !op.value || cant < 1) { celda.textContent = '–'; return; }
+        var sub = cant * Number(mayor ? op.dataset.may : op.dataset.det);
+        total += sub; celda.textContent = fmt(sub);
+        if (cant > Number(op.dataset.stock)) faltan.push(op.textContent.split(':')[0]);
+      });
+      document.getElementById('total').textContent = fmt(total);
+      document.getElementById('regla').textContent = mayor ? 'Precio por mayor' : 'Precio al detalle';
+      var op = cliente.selectedOptions[0];
+      document.getElementById('tipo-cliente').innerHTML = op ? op.dataset.tipo + ': <span>' + (mayor ? 'paga precio por mayor' : 'paga precio al detalle') + '</span>' : '';
+      var aviso = document.getElementById('aviso-stock');
+      aviso.hidden = !faltan.length;
+      aviso.textContent = faltan.length ? 'Sin stock suficiente: ' + faltan.join(', ') + '. La venta será rechazada.' : '';
+    }
+    form.addEventListener('input', calcular);
+    form.addEventListener('change', calcular);
+    calcular();
+  })();
+</script>
 {% endblock %}

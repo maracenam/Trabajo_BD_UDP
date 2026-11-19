@@ -9,7 +9,7 @@
 <form class="filtros" method="get">
   <div><label for="desde">Desde</label><input id="desde" type="date" name="desde" value="{{ desde or '' }}"></div>
   <div><label for="hasta">Hasta</label><input id="hasta" type="date" name="hasta" value="{{ hasta or '' }}"></div>
-  <div style="min-width:0"><button class="boton sec">Filtrar</button></div>
+  <div class="sin-min"><button class="boton sec">Filtrar</button></div>
 </form>
 <div class="tabla"><table>
   <thead><tr><th>Venta</th><th>Fecha</th><th class="num">Ticket</th><th>Cliente</th><th>Atendió</th><th class="num">Productos</th><th class="num">Total</th></tr></thead>
@@ -20,7 +20,7 @@
       <td class="num">{{ v.numero_ticket }}</td>
       <td>{{ v.cliente }}<br><span class="tenue">{{ v.tipo_cliente }}</span></td>
       <td>{{ v.empleado }}</td><td class="num">{{ v.lineas }}</td>
-      <td class="num">{{ v.total|clp }}</td></tr>
+      <td class="num fuerte">{{ v.total|clp }}</td></tr>
   {% else %}<tr><td colspan="7" class="vacio">No hay ventas en esas fechas.</td></tr>{% endfor %}
   </tbody>
 </table></div>

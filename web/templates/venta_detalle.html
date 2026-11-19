@@ -24,7 +24,7 @@
       <td class="num">{{ l.precio_unit|clp }}</td><td class="num">{{ l.subtotal|clp }}</td></tr>
   {% endfor %}
   </tbody>
-  <tfoot><tr><td colspan="3">Total</td><td class="num">{{ v.total|clp }}</td></tr></tfoot>
+  <tfoot><tr><td colspan="3">Total</td><td class="num"><span class="precio">{{ v.total|clp }}</span></td></tr></tfoot>
 </table></div>
 </section>
 {% endblock %}

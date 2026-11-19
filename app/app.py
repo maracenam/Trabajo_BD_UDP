@@ -336,7 +336,7 @@ def venta_nueva():
         "ORDER BY fecha DESC, numero"
     )
     clientes = consulta(
-        """SELECT c.id_cliente, c.nombre, c.rut, t.nombre AS tipo FROM cliente c
+        """SELECT c.id_cliente, c.nombre, c.rut, t.nombre AS tipo, t.aplica_precio_may AS mayor FROM cliente c
            JOIN tipo_cliente t ON t.id_tipo_cliente = c.id_tipo_cliente ORDER BY c.nombre"""
     )
     empleados = consulta("SELECT id_empleado, nombre FROM empleado ORDER BY nombre")

@@ -272,8 +272,10 @@ def venta_nueva():
                 flash("Venta rechazada (ROLLBACK): " + str(e), "error")
     tickets = leer("ticket", select="id_ticket,numero,fecha,hora", estado="eq.emitido",
                    order="fecha.desc,numero")
-    clientes = [dict(c, tipo=c["tipo_cliente"]["nombre"]) for c in
-                leer("cliente", select="id_cliente,nombre,rut,tipo_cliente(nombre)", order="nombre")]
+    clientes = [dict(c, tipo=c["tipo_cliente"]["nombre"],
+                     mayor=bool(c["tipo_cliente"]["aplica_precio_may"])) for c in
+                leer("cliente", select="id_cliente,nombre,rut,tipo_cliente(nombre,aplica_precio_may)",
+                     order="nombre")]
     empleados = leer("empleado", select="id_empleado,nombre", order="nombre")
     prods = leer("v_stock_productos", select="id_producto,producto,precio_det,precio_may,cantidad",
                  order="producto")
