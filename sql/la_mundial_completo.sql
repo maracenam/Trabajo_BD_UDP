@@ -178,18 +178,18 @@ SET NAMES utf8mb4;
 
 INSERT INTO categoria (nombre) VALUES
  ('Chocolates'), ('Galletas'), ('Snacks'), ('Bebidas'),
- ('Caramelos'), ('Aseo personal');
+ ('Caramelos'), ('Gomitas');
 
 INSERT INTO marca (nombre) VALUES
  ('Nestlé'), ('Costa'), ('Arcor'), ('McKay'), ('Evercrisp'),
- ('Coca-Cola'), ('Ambrosoli'), ('Dove'), ('Colgate'), ('Savory Sur'),
+ ('Coca-Cola'), ('Ambrosoli'), ('Fruna'), ('Calaf'), ('Savory Sur'),
  ('Benedictino');
 
 INSERT INTO proveedor (rut, razon_social, telefono, email) VALUES
  ('76123456-7', 'Distribuidora Andes SpA',        '226001100', 'ventas@andesspa.cl'),
  ('77234567-8', 'Comercial Dulce Sur Ltda.',      '226002200', 'contacto@dulcesur.cl'),
  ('78345678-9', 'Embotelladora Central S.A.',     '226003300', 'pedidos@embcentral.cl'),
- ('79456789-0', 'Higiene Total Chile SpA',        '226004400', 'ventas@higienetotal.cl'),
+ ('79456789-0', 'Golosinas del Pacífico SpA',     '226004400', 'ventas@golosinaspacifico.cl'),
  ('76567890-1', 'Importadora Snack Market Ltda.', NULL,        'snackmarket@correo.cl');
 
 -- precio_det = precio al detalle / precio_may = precio por mayor (CLP)
@@ -210,10 +210,10 @@ INSERT INTO producto (sku, nombre, precio_det, precio_may, id_categoria, id_marc
  ('7801610000035', 'Agua Benedictino 1,5 L',              990,  790, 4, 11, 3),
  ('7802225000014', 'Caramelos Ambrosoli Frutales 400 g', 2290, 1890, 5, 7, 2),
  ('7802225000021', 'Calugas Ambrosoli Leche 300 g',      2690, 2200, 5, 7, 2),
- ('7891150000016', 'Jabón Dove Original 90 g',            990,  820, 6, 8, 4),
- ('7891150000023', 'Shampoo Dove Reconstrucción 400 ml', 4290, 3600, 6, 8, 4),
- ('7891024000014', 'Pasta Dental Colgate Total 90 g',    2390, 1990, 6, 9, 4),
- ('7891024000021', 'Cepillo Dental Colgate Medio',       1490, 1190, 6, 9, 4);
+ ('7802920000017', 'Gomitas Frutales Fruna 200 g',         990,  820, 6, 8, 4),
+ ('7802920000024', 'Gomitas Ositos Fruna 1 kg',          4290, 3600, 6, 8, 4),
+ ('7802930000014', 'Gomitas Mora Calaf 400 g',           2390, 1990, 6, 9, 4),
+ ('7802930000021', 'Gomitas Frutillas Calaf 250 g',      1490, 1190, 6, 9, 4);
 
 INSERT INTO stock (id_producto, cantidad, stock_min, fecha_act) VALUES
  ( 1, 180, 50, '2026-11-02'), ( 2, 220, 60, '2026-11-02'),

@@ -21,7 +21,7 @@ La atención por número de ticket es el corazón del local: el número de turno
 ## Operating Context
 
 - Atención por tickets numerados que se reinician cada día; cada venta nace de un ticket (estados: en espera, atendido, anulado).
-- Dos líneas de negocio: confites, chocolates, galletas, bebidas y snacks; y aseo personal (escenario del trabajo).
+- Alcance: solo la línea de confitería (confites, chocolates, galletas, gomitas, caramelos, bebidas y snacks), como se definió en la fase Diseño.
 - Tipos de cliente: Minorista, Mayorista, Turista, Distribuidor.
 - Demostración en notebook o proyector en sala de clases (UDP).
 - Montos en pesos chilenos, sin decimales.
