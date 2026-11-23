@@ -49,7 +49,7 @@ DELETE FROM cliente c
    AND NOT EXISTS (SELECT 1 FROM venta v WHERE v.id_cliente = c.id_cliente);
 
 -- DELETE 10) integridad referencial (descomentar)
--- DELETE FROM marca WHERE nombre = 'Nestle';
+-- DELETE FROM marca WHERE nombre = 'Nestlé';
 --   -> ERROR: update or delete on table "marca" violates foreign key constraint
 
 -- Transaccion con ROLLBACK (ejecutar en psql o en el SQL Editor por bloques)

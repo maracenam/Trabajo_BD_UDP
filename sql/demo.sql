@@ -4,6 +4,7 @@
 --  Ctrl+Enter (solo la sentencia actual).
 -- =====================================================================
 USE la_mundial;
+SET NAMES utf8mb4;
 
 -- ---------------------------------------------------------------------
 -- PASO 1 · Sistema funcionando: las 12 tablas y sus tuplas
@@ -109,4 +110,4 @@ INSERT INTO producto (sku, nombre, precio_det, precio_may, id_categoria, id_marc
 VALUES ('7802800000011', 'chocolate sahne nuss', 2990, 2490, 1, 1, 1);
 
 -- Marca con productos -> error 1451 (llave foránea)
-DELETE FROM marca WHERE nombre = 'Nestle';
+DELETE FROM marca WHERE nombre = 'Nestlé';

@@ -69,7 +69,7 @@ DELETE FROM cliente
 
 -- 10) Integridad referencial: NO se puede eliminar una marca con productos
 --     (Descomentar para probar.)
--- DELETE FROM marca WHERE nombre = 'Nestle';
+-- DELETE FROM marca WHERE nombre = 'Nestlé';
 --   -> ERROR 1451: Cannot delete or update a parent row: a foreign key constraint fails
 
 -- ---------------------------------------------------------------------

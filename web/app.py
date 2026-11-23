@@ -286,12 +286,12 @@ def venta_nueva():
 
 # ---------------------------------------------------------------------
 REPORTES = {
-    "dia": ("Ventas por dia", "rpt_ventas_dia", {"order": "fecha.desc", "limit": 60}),
+    "dia": ("Ventas por día", "rpt_ventas_dia", {"order": "fecha.desc", "limit": 60}),
     "tipo": ("Ventas por tipo de cliente", "rpt_ventas_tipo", {"order": "monto_total.desc"}),
-    "top": ("Top 10 productos mas vendidos", "rpt_top_productos", {"order": "unidades.desc", "limit": 10}),
-    "categoria": ("Ingresos por categoria", "rpt_ingresos_categoria", {"order": "ingresos.desc"}),
+    "top": ("Top 10 productos más vendidos", "rpt_top_productos", {"order": "unidades.desc", "limit": 10}),
+    "categoria": ("Ingresos por categoría", "rpt_ingresos_categoria", {"order": "ingresos.desc"}),
     "empleados": ("Ranking de empleados", "rpt_ranking_empleados", {"order": "monto_vendido.desc"}),
-    "tickets": ("Estado de tickets por dia", "rpt_tickets_dia", {"order": "fecha.desc", "limit": 60}),
+    "tickets": ("Estado de tickets por día", "rpt_tickets_dia", {"order": "fecha.desc", "limit": 60}),
     "sin_venta": ("Productos sin ventas", "rpt_productos_sin_venta", {}),
 }
 MONEDA = {"monto_total", "ticket_promedio", "ingresos", "monto_vendido"}
@@ -325,10 +325,10 @@ def procesos():
                 flash(f"Reajuste aplicado a {n} productos.", "ok")
             elif accion == "reposicion":
                 r = rpc("sp_reposicion_masiva", p_factor=entero(f.get("factor"), 2))[0]
-                flash(f"Reposicion: {r['productos']} productos, {r['unidades']} unidades.", "ok")
+                flash(f"Reposición: {r['productos']} productos, {r['unidades']} unidades.", "ok")
             elif accion == "cierre":
                 n = rpc("sp_cierre_dia", p_fecha=f.get("fecha") or None)
-                flash(f"Cierre de dia: {n} tickets anulados.", "ok")
+                flash(f"Cierre del día: {n} tickets anulados.", "ok")
             elif accion == "recalcular":
                 n = rpc("sp_recalcular_totales")
                 flash(f"Totales verificados: {n} ventas corregidas.", "ok")

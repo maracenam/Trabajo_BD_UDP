@@ -353,7 +353,7 @@ def venta_nueva():
 # Reportes
 # ---------------------------------------------------------------------
 REPORTES = {
-    "dia": ("Ventas por dia",
+    "dia": ("Ventas por día",
             """SELECT fecha, COUNT(*) AS n_ventas, SUM(total) AS monto_total,
                       ROUND(AVG(total)) AS ticket_promedio
                FROM venta GROUP BY fecha ORDER BY fecha DESC LIMIT 60"""),
@@ -364,12 +364,12 @@ REPORTES = {
                 LEFT JOIN cliente cl ON cl.id_tipo_cliente = tc.id_tipo_cliente
                 LEFT JOIN venta v ON v.id_cliente = cl.id_cliente
                 GROUP BY tc.id_tipo_cliente, tc.nombre ORDER BY monto_total DESC"""),
-    "top": ("Top 10 productos mas vendidos",
+    "top": ("Top 10 productos más vendidos",
             """SELECT p.sku, p.nombre AS producto, SUM(d.cantidad) AS unidades,
                       SUM(d.cantidad*d.precio_unit) AS ingresos
                FROM detalle_venta d JOIN producto p ON p.id_producto = d.id_producto
                GROUP BY p.id_producto, p.sku, p.nombre ORDER BY unidades DESC LIMIT 10"""),
-    "categoria": ("Ingresos por categoria",
+    "categoria": ("Ingresos por categoría",
                   """SELECT c.nombre AS categoria, SUM(d.cantidad*d.precio_unit) AS ingresos,
                             ROUND(100*SUM(d.cantidad*d.precio_unit) /
                                   (SELECT SUM(cantidad*precio_unit) FROM detalle_venta),1) AS pct
@@ -382,7 +382,7 @@ REPORTES = {
                             COALESCE(SUM(v.total),0) AS monto_vendido
                      FROM empleado e LEFT JOIN venta v ON v.id_empleado = e.id_empleado
                      GROUP BY e.id_empleado, e.nombre, e.cargo ORDER BY monto_vendido DESC"""),
-    "tickets": ("Estado de tickets por dia",
+    "tickets": ("Estado de tickets por día",
                 """SELECT fecha, SUM(estado='atendido') AS atendidos, SUM(estado='anulado') AS anulados,
                           SUM(estado='emitido') AS pendientes, COUNT(*) AS total_tickets
                    FROM ticket GROUP BY fecha ORDER BY fecha DESC LIMIT 60"""),
@@ -423,10 +423,10 @@ def procesos():
             elif accion == "reposicion":
                 r = llamar("CALL sp_reposicion_masiva(%s, @p, @u)",
                            (entero(f.get("factor"), 2),), ["@p", "@u"])
-                flash(f"Reposicion: {r['p']} productos, {r['u']} unidades.", "ok")
+                flash(f"Reposición: {r['p']} productos, {r['u']} unidades.", "ok")
             elif accion == "cierre":
                 r = llamar("CALL sp_cierre_dia(%s, @a)", (f.get("fecha") or None,), ["@a"])
-                flash(f"Cierre de dia: {r['a']} tickets anulados.", "ok")
+                flash(f"Cierre del día: {r['a']} tickets anulados.", "ok")
             elif accion == "recalcular":
                 r = llamar("CALL sp_recalcular_totales(@c)", None, ["@c"])
                 flash(f"Totales verificados: {r['c']} ventas corregidas.", "ok")

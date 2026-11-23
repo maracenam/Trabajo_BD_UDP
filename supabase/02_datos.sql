@@ -8,8 +8,9 @@ INSERT INTO categoria (nombre) VALUES
  ('Caramelos'), ('Aseo personal');
 
 INSERT INTO marca (nombre) VALUES
- ('Nestle'), ('Costa'), ('Arcor'), ('McKay'), ('Evercrisp'),
- ('Coca-Cola'), ('Ambrosoli'), ('Dove'), ('Colgate'), ('Savory Sur');
+ ('Nestlé'), ('Costa'), ('Arcor'), ('McKay'), ('Evercrisp'),
+ ('Coca-Cola'), ('Ambrosoli'), ('Dove'), ('Colgate'), ('Savory Sur'),
+ ('Benedictino');
 
 INSERT INTO proveedor (rut, razon_social, telefono, email) VALUES
  ('76123456-7', 'Distribuidora Andes SpA',        '226001100', 'ventas@andesspa.cl'),
@@ -30,14 +31,14 @@ INSERT INTO producto (sku, nombre, precio_det, precio_may, id_categoria, id_marc
  ('7802215000039', 'Galletas Costa Chocman 33 g',         350,  270, 2, 2, 2),
  ('7802000000014', 'Papas Fritas Evercrisp 250 g',       2590, 2150, 3, 5, 5),
  ('7802000000021', 'Ramitas Evercrisp 200 g',            1690, 1400, 3, 5, 5),
- ('7802000000038', 'Mani Salado Savory Sur 150 g',       1290, 1050, 3, 10, 5),
+ ('7802000000038', 'Maní Salado Savory Sur 150 g',       1290, 1050, 3, 10, 5),
  ('7801610000011', 'Coca-Cola Original 1,5 L',           1890, 1590, 4, 6, 3),
  ('7801610000028', 'Coca-Cola Zero 1,5 L',               1890, 1590, 4, 6, 3),
- ('7801610000035', 'Agua Benedictino 1,5 L',              990,  790, 4, 6, 3),
+ ('7801610000035', 'Agua Benedictino 1,5 L',              990,  790, 4, 11, 3),
  ('7802225000014', 'Caramelos Ambrosoli Frutales 400 g', 2290, 1890, 5, 7, 2),
  ('7802225000021', 'Calugas Ambrosoli Leche 300 g',      2690, 2200, 5, 7, 2),
- ('7891150000016', 'Jabon Dove Original 90 g',            990,  820, 6, 8, 4),
- ('7891150000023', 'Shampoo Dove Reconstruccion 400 ml', 4290, 3600, 6, 8, 4),
+ ('7891150000016', 'Jabón Dove Original 90 g',            990,  820, 6, 8, 4),
+ ('7891150000023', 'Shampoo Dove Reconstrucción 400 ml', 4290, 3600, 6, 8, 4),
  ('7891024000014', 'Pasta Dental Colgate Total 90 g',    2390, 1990, 6, 9, 4),
  ('7891024000021', 'Cepillo Dental Colgate Medio',       1490, 1190, 6, 9, 4);
 
@@ -62,19 +63,19 @@ INSERT INTO tipo_cliente (nombre, aplica_precio_may) VALUES
 INSERT INTO cliente (rut, nombre, telefono, id_tipo_cliente) VALUES
  ('66666666-6', 'Cliente General (boleta)',        NULL,        1),
  ('12345678-5', 'Camila Rojas Fuentes',            '912345678', 1),
- ('15987654-3', 'Jorge Munoz Soto',                '987654321', 1),
+ ('15987654-3', 'Jorge Muñoz Soto',                '987654321', 1),
  ('76998877-K', 'Minimarket Don Pepe SpA',         '225556677', 2),
- ('77665544-2', 'Almacen La Esquina Ltda.',        '224443322', 2),
- ('P1234567',   'Joao Silva (Brasil)',             NULL,        3),
+ ('77665544-2', 'Almacén La Esquina Ltda.',        '224443322', 2),
+ ('P1234567',   'João Silva (Brasil)',             NULL,        3),
  ('P7654321',   'Mariana Costa (Brasil)',          NULL,        3),
  ('78112233-4', 'Distribuidora Norte Grande SpA',  '552223344', 4);
 
 INSERT INTO empleado (rut, nombre, cargo) VALUES
- ('16111222-3', 'Pedro Gonzalez Lagos',  'Vendedor'),
- ('17222333-4', 'Valentina Diaz Perez',  'Vendedora'),
+ ('16111222-3', 'Pedro González Lagos',  'Vendedor'),
+ ('17222333-4', 'Valentina Díaz Pérez',  'Vendedora'),
  ('18333444-5', 'Ricardo Morales Vega',  'Cajero'),
  ('13444555-6', 'Carolina Herrera Ruiz', 'Jefa de Local'),
- ('19555666-7', 'Felipe Castro Nunez',   'Vendedor');
+ ('19555666-7', 'Felipe Castro Núñez',   'Vendedor');
 
 -- Tickets de atencion (el numero se reinicia cada dia)
 INSERT INTO ticket (numero, fecha, hora, estado) VALUES

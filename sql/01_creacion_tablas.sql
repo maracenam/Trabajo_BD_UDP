@@ -7,6 +7,7 @@
 --  RDBMS: MySQL 8.0+  (probado tambien en MariaDB 10.11)
 -- =====================================================================
 
+SET NAMES utf8mb4;
 DROP DATABASE IF EXISTS la_mundial;
 CREATE DATABASE la_mundial CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE la_mundial;
