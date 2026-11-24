@@ -140,3 +140,8 @@ VALUES ('7802800000011', 'chocolate sahne nuss', 2990, 2490, 1, 1, 1);
 
 -- 9b. Marca con productos -> viola la llave foránea fk_producto_marca
 DELETE FROM marca WHERE nombre = 'Nestlé';
+
+-- ---------------------------------------------------------------------
+-- AL TERMINAR · Dejar la base como al inicio (equivale a reiniciar.sql)
+-- ---------------------------------------------------------------------
+SELECT * FROM sp_reiniciar_demo();
