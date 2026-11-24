@@ -40,26 +40,46 @@ ORDER BY v.id_venta DESC
 LIMIT 5;
 
 -- ---------------------------------------------------------------------
--- PASO 6 · Procesamiento masivo (cada bloque por separado)
+-- PASO 6 · Procesamiento masivo: reajuste de precios (cada bloque por separado)
 -- ---------------------------------------------------------------------
--- 6a. Carga de 2.000 ventas (temporada alta)
-SELECT sp_generar_ventas_simuladas(2000, 120) AS ventas_creadas;
+-- 6a. Precios de los chocolates ANTES del reajuste
+SELECT producto, precio_det, precio_may
+FROM v_stock_productos
+WHERE categoria = 'Chocolates'
+ORDER BY producto;
 
--- 6b. Control de la desnormalización después de la carga (debe dar 0)
-SELECT sp_recalcular_totales() AS ventas_con_diferencias;
+-- 6b. Reajuste masivo: +5% a toda la categoría Chocolates (id 1).
+--     Recorre los productos con un cursor, redondea a la decena y deja auditoría.
+SELECT sp_reajuste_precios(1, 5, 'Alza proveedor chocolates') AS productos_reajustados;
 
--- 6c. Contar ventas ANTES del intento fallido
-SELECT COUNT(*) AS ventas FROM venta;
+-- 6c. Precios DESPUÉS: todos subieron 5%
+SELECT producto, precio_det, precio_may
+FROM v_stock_productos
+WHERE categoria = 'Chocolates'
+ORDER BY producto;
 
--- 6d. Venta que falla: da ERROR (es lo esperado) y no queda nada a medias
+-- 6d. Auditoría: una fila por cada producto reajustado
+SELECT nombre AS producto, precio_det_ant, precio_det_nuevo, precio_may_ant, precio_may_nuevo,
+       to_char(fecha_cambio AT TIME ZONE 'America/Santiago', 'DD-MM-YYYY HH24:MI') AS fecha, motivo
+FROM v_historial_precio
+ORDER BY id_historial DESC
+LIMIT 5;
+
+-- 6e. Reajuste inválido (500%): da ERROR (es lo esperado) y no cambia ningún precio
+SELECT sp_reajuste_precios(1, 500, 'Prueba de error');
+
+-- 6f. Venta con más unidades que el stock: da ERROR y la transacción se deshace completa
+SELECT COUNT(*) AS ventas_antes FROM venta;
 SELECT sp_registrar_venta((SELECT id_ticket FROM sp_emitir_ticket()), 4, 2, '5:10,16:99999');
-
--- 6e. Contar ventas DESPUÉS: el mismo número que en 6c (también se deshizo el ticket)
-SELECT COUNT(*) AS ventas FROM venta;
+SELECT COUNT(*) AS ventas_despues FROM venta;
 
 -- ---------------------------------------------------------------------
--- PASO 7 · Índices secundarios (con 2.000 ventas el efecto es claro)
+-- PASO 7 · Índices secundarios
 -- ---------------------------------------------------------------------
+-- 7.0 Carga masiva de 2.000 ventas (temporada alta), para que el efecto del índice se note
+SELECT sp_generar_ventas_simuladas(2000, 120) AS ventas_creadas;
+SELECT sp_recalcular_totales() AS ventas_con_diferencias;   -- debe dar 0
+
 -- 7a. Los 3 índices secundarios
 SELECT tablename AS tabla, indexname AS indice, indexdef AS definicion
 FROM pg_indexes
